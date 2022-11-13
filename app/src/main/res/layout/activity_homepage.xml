@@ -10,10 +10,10 @@
         android:id="@+id/imageView"
         android:layout_width="101dp"
         android:layout_height="101dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintHorizontal_bias="0.842"
         app:layout_constraintStart_toEndOf="@+id/welcomemsg"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/app_logo800" />
@@ -22,7 +22,7 @@
         android:id="@+id/welcomemsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="56dp"
         android:fontFamily="sans-serif-black"
         android:text="Welcome"
@@ -34,7 +34,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="362dp"
+        android:layout_width="345dp"
         android:layout_height="242dp"
         android:layout_marginTop="128dp"
         app:cardBackgroundColor="#FD493D"
@@ -58,7 +58,7 @@
 
         <TextView
             android:id="@+id/cardmsg"
-            android:layout_width="345dp"
+            android:layout_width="332dp"
             android:layout_height="match_parent"
             android:alpha="0.9"
             android:fontFamily="sans-serif-black"
@@ -78,66 +78,68 @@
         android:id="@+id/recordbutton"
         android:layout_width="155dp"
         android:layout_height="192dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="44dp"
         android:layout_marginBottom="41dp"
         android:backgroundTint="#FF9800"
         android:fontFamily="sans-serif-black"
-        android:text="\t \t \t \t  Past record"
-        android:textColor="@color/black"
+        android:text="\t \t \t \t \t \t \t \t \t \t \t \t  Past record"
+        android:textColor="@color/white"
         android:textSize="24sp"
         app:cornerRadius="20sp"
         app:layout_constraintBottom_toTopOf="@+id/startbutton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.941" />
 
     <Button
         android:id="@+id/guidebutton"
         android:layout_width="155dp"
         android:layout_height="192dp"
         android:layout_marginTop="45dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="#FF9800"
         android:fontFamily="sans-serif-black"
-        android:text="\t \t \t \t  User guide"
-        android:textColor="@color/black"
+        android:text="\t \t \t \t \t \t \t \t \t \t \t \t User guide"
+        android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
         app:cornerRadius="20sp"
         app:layout_constraintBottom_toTopOf="@+id/startbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="84dp"
-        android:layout_height="107dp"
+        android:layout_width="70dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="20dp"
         android:elevation="20sp"
         app:layout_constraintEnd_toEndOf="@+id/recordbutton"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="@+id/recordbutton"
         app:layout_constraintTop_toTopOf="@+id/recordbutton"
-        app:srcCompat="@drawable/recordicon" />
+        app:srcCompat="@drawable/recordicon2" />
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="45dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="62dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="20dp"
         android:elevation="20sp"
         app:layout_constraintEnd_toEndOf="@+id/guidebutton"
-        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="@+id/guidebutton"
         app:layout_constraintTop_toTopOf="@+id/guidebutton"
-        app:srcCompat="@drawable/helpicon" />
+        app:srcCompat="@drawable/helpicon2" />
 
     <Button
         android:id="@+id/startbutton"
-        android:layout_width="320dp"
-        android:layout_height="56dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="345dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="44dp"
         android:backgroundTint="#FF5722"
         android:elevation="10dp"
         android:fontFamily="sans-serif-black"
@@ -147,7 +149,6 @@
         app:cornerRadius="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
