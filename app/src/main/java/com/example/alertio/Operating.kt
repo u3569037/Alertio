@@ -1,4 +1,4 @@
-package hk.hkucs.noisemonitoringapp
+package com.example.alertio
 
 import android.content.pm.PackageManager
 import android.media.AudioRecord
@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import org.tensorflow.lite.support.audio.TensorAudio
 import org.tensorflow.lite.task.audio.classifier.AudioClassifier
+import org.tensorflow.lite.task.audio.classifier.AudioClassifier.AudioClassifierOptions
 import org.tensorflow.lite.task.audio.classifier.Classifications
 import java.io.IOException
 import java.util.Locale.Category
@@ -17,7 +18,7 @@ import java.util.TimerTask
 import kotlin.concurrent.timerTask
 
 
-class MainActivity : AppCompatActivity() {
+class Operating : AppCompatActivity() {
     //private lateinit var recorder: MediaRecorder
 
     private var isStopped = false
@@ -31,39 +32,44 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_operating)
 
         val btnBack = findViewById<Button>(R.id.back)
         val btnStop = findViewById<Button>(R.id.stop)
-        val visualizer = findViewById<com.gauravk.audiovisualizer.visualizer.BarVisualizer>(R.id.visualizer)
+        // val visualizer = findViewById<com.gauravk.audiovisualizer.visualizer.BarVisualizer>(R.id.visualizer)
 
-        btnBack.setOnClickListener{
+        btnBack.setOnClickListener {
             //check if recording is stopped
             if (isStopped) {
                 // go back to the main page
-            }
-            else {
-                Toast.makeText(this, "Recording in progress. Please stop the recording first", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Recording in progress. Please stop the recording first",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 
-        btnStop.setOnClickListener{
-            stopRecording()
+        btnStop.setOnClickListener {
+            //stopRecording()
         }
+
 
         //loading model from asset folder
         try {
             audioClassifier = AudioClassifier.createFromFile(this, model)
-        }catch (e: IOException){
+        } catch (e: IOException) {
             e.printStackTrace()
         }
+
 
         // create an audio recorder
         tensorAudio = audioClassifier.createInputTensorAudio()
 
 
     }
-
+/*
     fun checkMicPresence(): Boolean {
         //check if mic is present
         val pm = packageManager
@@ -114,11 +120,11 @@ class MainActivity : AppCompatActivity() {
                     outputStr.append(category.label).append((": ")).append(category.score).append("\n")
                 }
 
-                runOnUiThread(Runnable{
+               /* runOnUiThread(Runnable{
                     fun run() {
                         outputTextView.setText(outputStr.toString())
                     }
-                })
+                })*/
 
             }
 
@@ -134,6 +140,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
+*/
 
 }
