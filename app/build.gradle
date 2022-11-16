@@ -16,6 +16,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    
+    // Specify that the tflite file should not be compressed when building the APK package.
+    aaptOptions {
+        noCompress "tflite"
+    }
 
     buildTypes {
         release {
