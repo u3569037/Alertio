@@ -1,10 +1,12 @@
 package com.example.alertio
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,16 +20,16 @@ import java.util.TimerTask
 import kotlin.concurrent.timerTask
 
 
-class Operating : AppCompatActivity() {
+open class Operating : AppCompatActivity() {
     //private lateinit var recorder: MediaRecorder
 
-    private var isStopped = false
-    private lateinit var audioRecord:AudioRecord
-    private var model = "yamnet_classification.tflite"
-    private lateinit var timerTask:TimerTask
+     protected var isStopped = false
+ //   private lateinit var audioRecord:AudioRecord
+ //   var modelPath = "yamnet_classification.tflite"
+ //   private lateinit var timerTask:TimerTask
 
-    private lateinit var audioClassifier: AudioClassifier
-    private lateinit var tensorAudio: TensorAudio
+//    private lateinit var audioClassifier: AudioClassifier
+//    private lateinit var tensorAudio: TensorAudio
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +37,17 @@ class Operating : AppCompatActivity() {
         setContentView(R.layout.activity_operating)
 
         val btnBack = findViewById<Button>(R.id.back)
+        val btnStart = findViewById<Button>(R.id.start)
         val btnStop = findViewById<Button>(R.id.stop)
+
         // val visualizer = findViewById<com.gauravk.audiovisualizer.visualizer.BarVisualizer>(R.id.visualizer)
 
         btnBack.setOnClickListener {
             //check if recording is stopped
             if (isStopped) {
                 // go back to the main page
+                val intent = Intent(this@Operating, Homepage::class.java)
+                startActivity(intent)
             } else {
                 Toast.makeText(
                     this,
@@ -52,20 +58,25 @@ class Operating : AppCompatActivity() {
         }
 
         btnStop.setOnClickListener {
-            //stopRecording()
+            stopRecording()
+        }
+
+        btnStart.setOnClickListener() {
+            startRecording()
         }
 
 
-        //loading model from asset folder
+/*
+        //loading model from assets folder
         try {
-            audioClassifier = AudioClassifier.createFromFile(this, model)
+            audioClassifier = AudioClassifier.createFromFile(this, modelPath)
         } catch (e: IOException) {
             e.printStackTrace()
         }
 
 
         // create an audio recorder
-        tensorAudio = audioClassifier.createInputTensorAudio()
+        tensorAudio = audioClassifier.createInputTensorAudio()*/
 
 
     }
@@ -88,58 +99,17 @@ class Operating : AppCompatActivity() {
         }
         return true
     }
-
-    private fun startRecording() {
-        if (!checkMicPresence()) {
-            return
-        }
-        if (!checkPermission()) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), 0)
-            return
-        }
-        isStopped = false
-        audioRecord = audioClassifier.createAudioRecord()
-        audioRecord.startRecording()
-
-        timerTask = object: TimerTask() {
-            public override fun run() {
-                var output = audioClassifier.classify(tensorAudio)
-
-                //filter out classifications with low probability
-                var finalOutput = ArrayList<org.tensorflow.lite.support.label.Category>()
-                for (classifications in output) {
-                    for (category in classifications.categories){
-                        if (category.score > 0.3f) {
-                            finalOutput.add(category)
-                        }
-                    }
-                }
-                //create a multiline string with the filtered result
-                var outputStr = StringBuilder()
-                for (category in finalOutput) {
-                    outputStr.append(category.label).append((": ")).append(category.score).append("\n")
-                }
-
-               /* runOnUiThread(Runnable{
-                    fun run() {
-                        outputTextView.setText(outputStr.toString())
-                    }
-                })*/
-
-            }
-
-        }
-    }
-
-
-    private fun stopRecording() {
-        if (!isStopped) {
-            timerTask.cancel()
-            audioRecord.stop()
-            isStopped = true
-        }
-
-    }
 */
+    open fun startRecording() {
+        //to be implemented in AudioClassificationActivity.kt
+    }
+
+
+    open fun stopRecording() {
+        //to be implemented in AudioClassificationActivity.kt
+    }
 
 }
+
+
+
