@@ -6,8 +6,6 @@ import android.widget.ListView
 import android.widget.SimpleAdapter
 import android.widget.Toast
 import java.io.FileInputStream
-import java.io.File
-import java.io.FileOutputStream
 
 
 class PastRecord : AppCompatActivity() {
@@ -29,9 +27,11 @@ class PastRecord : AppCompatActivity() {
                     temp = ""
                 }
             }
+            Toast.makeText(getBaseContext(), "file read", Toast.LENGTH_SHORT).show()
 
         }
             catch (e: Exception) {
+                //exe
         }
 
 
@@ -44,7 +44,7 @@ class PastRecord : AppCompatActivity() {
             list.add(map)
         }
         val adapter = SimpleAdapter(this, list, R.layout.activity_list_item,
-            arrayOf("Danger", "Time"), intArrayOf(R.id.role, R.id.name))
+            arrayOf("Danger", "Time"), intArrayOf(R.id.danger, R.id.dtime))
         val list_view: ListView = findViewById(R.id.list_view)
         list_view.adapter = adapter }
     }
