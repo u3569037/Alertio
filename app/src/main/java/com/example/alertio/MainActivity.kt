@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        window.statusBarColor = 0   //set status bar color to white
 
         val intent = Intent(this@MainActivity, Homepage::class.java)
         Timer().schedule(2000){

@@ -12,6 +12,7 @@
         android:layout_height="101sp"
         android:layout_marginTop="32sp"
         android:layout_marginEnd="4dp"
+        android:contentDescription="app logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.842"
         app:layout_constraintStart_toEndOf="@+id/welcomemsg"
@@ -34,9 +35,9 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="345sp"
-        android:layout_height="242sp"
-        android:layout_marginTop="128dp"
+        android:layout_width="350sp"
+        android:layout_height="250sp"
+        android:layout_marginTop="128sp"
         app:cardBackgroundColor="#FD493D"
         app:cardCornerRadius="30sp"
         app:cardElevation="20sp"
@@ -62,6 +63,7 @@
             android:layout_height="match_parent"
             android:alpha="0.9"
             android:fontFamily="sans-serif-black"
+            android:paddingTop="20sp"
             android:text="\n Danger alert \n  with AI \n sound \n recognition \n technology"
             android:textAlignment="viewEnd"
             android:textColor="@color/white"

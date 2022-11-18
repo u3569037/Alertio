@@ -11,6 +11,8 @@ class Homepage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
+        window.statusBarColor = 0   //set status bar color to white
+
 
         val guidebtn: Button = findViewById(R.id.guidebutton)
         guidebtn.setOnClickListener {

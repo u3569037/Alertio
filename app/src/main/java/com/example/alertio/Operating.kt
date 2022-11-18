@@ -17,6 +17,7 @@ class Operating : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_operating)
+        window.statusBarColor = 0   //set status bar color to white
 
         addRecord("Bicycle ring")
     }

@@ -15,6 +15,10 @@ class PastRecord : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_past_record)
+        window.statusBarColor = 0   //set status bar color to white
+
+
+        // add record to content view
         var recordList = arrayOf<String>()
         try {
             val fin: FileInputStream = openFileInput(file)
