@@ -22,13 +22,17 @@ class Operating : AppCompatActivity() {
     }
 
     private fun addRecord(danger:String){
-        var strDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()) + "+0000"
-        var dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ")
-        var resultOfParsing = OffsetDateTime.parse(strDate, dateFormatter)
 
-        var timeZone = ZoneId.of("Asia/Shanghai")
-        var hkTime: ZonedDateTime = resultOfParsing.atZoneSameInstant(timeZone)
-        val timeStamp = hkTime.format(dateFormatter).removeSuffix("+0800")
+          // code tried to change timezone
+//        var strDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()) + "+0000"
+//        var dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ")
+//        var resultOfParsing = OffsetDateTime.parse(strDate, dateFormatter)
+//
+//        var timeZone = ZoneId.of("Asia/Shanghai")
+//        var hkTime: ZonedDateTime = resultOfParsing.atZoneSameInstant(timeZone)
+//        val timeStamp = hkTime.format(dateFormatter).removeSuffix("+0800")
+
+        val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
 
 
         val data = "$danger,$timeStamp\n"
