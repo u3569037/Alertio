@@ -32,18 +32,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/app_logo800" />
 
-    <LinearLayout
-        android:layout_width="413dp"
-        android:layout_height="579dp"
-        android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="316dp"
-            android:layout_height="514dp"
-            android:layout_marginLeft="50dp" />
-    </LinearLayout>
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="0dp"
+        android:layout_height="620dp"
+        android:divider="@null"
+        android:dividerHeight="5.0sp"
+        android:fadeScrollbars="true"
+        android:paddingLeft="30sp"
+        android:paddingRight="30sp"
+        app:circularflow_angles="10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

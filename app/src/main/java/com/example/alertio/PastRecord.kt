@@ -9,7 +9,7 @@ import java.io.FileInputStream
 
 
 class PastRecord : AppCompatActivity() {
-    private val file = "mydata"
+    private val file = "identificationRecord"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +38,9 @@ class PastRecord : AppCompatActivity() {
         val list = arrayListOf<MutableMap<String, Any>>()
         for (i in recordList!!.indices) {
             val map: MutableMap<String, Any> = HashMap()
-            val count = i+1
-            map["Danger"] = "Danger $count"
-            map["Time"] = recordList[i]
+            val splitData = recordList[i].split(",").toTypedArray()
+            map["Danger"] = splitData[0]
+            map["Time"] = splitData[1]
             list.add(map)
         }
         val adapter = SimpleAdapter(this, list, R.layout.activity_list_item,

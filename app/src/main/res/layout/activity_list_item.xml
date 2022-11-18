@@ -7,25 +7,27 @@
 
     <TextView
         android:id="@+id/danger"
-        android:layout_width="wrap_content"
+        android:layout_width="150sp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
-        android:padding="20sp"
+        android:paddingTop="1sp"
+        android:paddingBottom="1sp"
         android:text="Bicycle"
         android:textColor="#F44336"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         tools:fontFamily="sans-serif-medium" />
 
     <TextView
         android:id="@+id/dtime"
-        android:layout_width="wrap_content"
+        android:layout_width="200sp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
-        android:padding="20sp"
+        android:paddingTop="1sp"
+        android:paddingBottom="1sp"
         android:text="20221118 12:22:39"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
 </LinearLayout>
