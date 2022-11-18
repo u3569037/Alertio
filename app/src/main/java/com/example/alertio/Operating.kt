@@ -1,15 +1,18 @@
-package hk.hkucs.noisemonitoringapp
+package com.example.alertio
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import org.tensorflow.lite.support.audio.TensorAudio
 import org.tensorflow.lite.task.audio.classifier.AudioClassifier
+import org.tensorflow.lite.task.audio.classifier.AudioClassifier.AudioClassifierOptions
 import org.tensorflow.lite.task.audio.classifier.Classifications
 import java.io.IOException
 import java.util.Locale.Category
@@ -17,53 +20,72 @@ import java.util.TimerTask
 import kotlin.concurrent.timerTask
 
 
-class MainActivity : AppCompatActivity() {
+open class Operating : AppCompatActivity() {
     //private lateinit var recorder: MediaRecorder
 
-    private var isStopped = false
-    private lateinit var audioRecord:AudioRecord
-    private var model = "yamnet_classification.tflite"
-    private lateinit var timerTask:TimerTask
+     protected var isStopped = false
+     protected var btnBack: Button? = null
+     protected var btnStart: Button? = null
+     protected var btnStop: Button? = null
+     protected var outputTextView: TextView? = null
 
-    private lateinit var audioClassifier: AudioClassifier
-    private lateinit var tensorAudio: TensorAudio
+    //   private lateinit var audioRecord:AudioRecord
+ //   var modelPath = "yamnet_classification.tflite"
+ //   private lateinit var timerTask:TimerTask
+
+//    private lateinit var audioClassifier: AudioClassifier
+//    private lateinit var tensorAudio: TensorAudio
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_operating)
 
-        val btnBack = findViewById<Button>(R.id.back)
-        val btnStop = findViewById<Button>(R.id.stop)
-        val visualizer = findViewById<com.gauravk.audiovisualizer.visualizer.BarVisualizer>(R.id.visualizer)
+        btnBack = findViewById<Button>(R.id.back)
+        btnStart = findViewById<Button>(R.id.start)
+        btnStop = findViewById<Button>(R.id.stop)
+        //outputTextView = findViewById<TextView>(R.id.outputTextView)
+        // val visualizer = findViewById<com.gauravk.audiovisualizer.visualizer.BarVisualizer>(R.id.visualizer)
 
-        btnBack.setOnClickListener{
+        btnBack!!.setOnClickListener {
             //check if recording is stopped
             if (isStopped) {
                 // go back to the main page
-            }
-            else {
-                Toast.makeText(this, "Recording in progress. Please stop the recording first", Toast.LENGTH_LONG).show()
+                val intent = Intent(this@Operating, Homepage::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Recording in progress. Please stop the recording first",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 
-        btnStop.setOnClickListener{
+        btnStop!!.setOnClickListener {
             stopRecording()
         }
 
-        //loading model from asset folder
+        btnStart!!.setOnClickListener() {
+            startRecording()
+        }
+
+
+/*
+        //loading model from assets folder
         try {
-            audioClassifier = AudioClassifier.createFromFile(this, model)
-        }catch (e: IOException){
+            audioClassifier = AudioClassifier.createFromFile(this, modelPath)
+        } catch (e: IOException) {
             e.printStackTrace()
         }
 
+
         // create an audio recorder
-        tensorAudio = audioClassifier.createInputTensorAudio()
+        tensorAudio = audioClassifier.createInputTensorAudio()*/
 
 
     }
-
+/*
     fun checkMicPresence(): Boolean {
         //check if mic is present
         val pm = packageManager
@@ -82,58 +104,17 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
-
-    private fun startRecording() {
-        if (!checkMicPresence()) {
-            return
-        }
-        if (!checkPermission()) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), 0)
-            return
-        }
-        isStopped = false
-        audioRecord = audioClassifier.createAudioRecord()
-        audioRecord.startRecording()
-
-        timerTask = object: TimerTask() {
-            public override fun run() {
-                var output = audioClassifier.classify(tensorAudio)
-
-                //filter out classifications with low probability
-                var finalOutput = ArrayList<org.tensorflow.lite.support.label.Category>()
-                for (classifications in output) {
-                    for (category in classifications.categories){
-                        if (category.score > 0.3f) {
-                            finalOutput.add(category)
-                        }
-                    }
-                }
-                //create a multiline string with the filtered result
-                var outputStr = StringBuilder()
-                for (category in finalOutput) {
-                    outputStr.append(category.label).append((": ")).append(category.score).append("\n")
-                }
-
-                runOnUiThread(Runnable{
-                    fun run() {
-                        outputTextView.setText(outputStr.toString())
-                    }
-                })
-
-            }
-
-        }
+*/
+    open fun startRecording() {
+        //to be implemented in AudioClassificationActivity.kt
     }
 
 
-    private fun stopRecording() {
-        if (!isStopped) {
-            timerTask.cancel()
-            audioRecord.stop()
-            isStopped = true
-        }
-
+    open fun stopRecording() {
+        //to be implemented in AudioClassificationActivity.kt
     }
-
 
 }
+
+
+

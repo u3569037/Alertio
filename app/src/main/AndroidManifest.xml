@@ -15,6 +15,13 @@
         android:theme="@style/Theme.Alertio"
         tools:targetApi="31">
         <activity
+            android:name=".AudioClassificationActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Operating"
             android:exported="false">
             <meta-data
