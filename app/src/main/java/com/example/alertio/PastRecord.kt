@@ -27,7 +27,7 @@ class PastRecord : AppCompatActivity() {
                     temp = ""
                 }
             }
-            Toast.makeText(getBaseContext(), "file read", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(getBaseContext(), "file read", Toast.LENGTH_SHORT).show()
 
         }
             catch (e: Exception) {

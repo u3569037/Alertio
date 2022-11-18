@@ -14,7 +14,7 @@
         android:paddingBottom="1sp"
         android:text="Bicycle"
         android:textColor="#F44336"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         tools:fontFamily="sans-serif-medium" />
 
@@ -27,7 +27,7 @@
         android:paddingBottom="1sp"
         android:text="20221118 12:22:39"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
 </LinearLayout>

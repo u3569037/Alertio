@@ -58,11 +58,11 @@
 
         <TextView
             android:id="@+id/cardmsg"
-            android:layout_width="332dp"
+            android:layout_width="332sp"
             android:layout_height="match_parent"
             android:alpha="0.9"
             android:fontFamily="sans-serif-black"
-            android:text="\n\n Danger alert \n  with AI \n sound \n recognition \n technology"
+            android:text="\n Danger alert \n  with AI \n sound \n recognition \n technology"
             android:textAlignment="viewEnd"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -76,11 +76,11 @@
 
     <Button
         android:id="@+id/recordbutton"
-        android:layout_width="155dp"
-        android:layout_height="192dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginBottom="41dp"
+        android:layout_width="155sp"
+        android:layout_height="200sp"
+        android:layout_marginStart="28sp"
+        android:layout_marginTop="44sp"
+        android:layout_marginBottom="40sp"
         android:backgroundTint="#FF9800"
         android:fontFamily="sans-serif-black"
         android:text="\t \t \t \t \t \t \t \t \t \t \t \t  Past record"
@@ -90,15 +90,15 @@
         app:layout_constraintBottom_toTopOf="@+id/startbutton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.941" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/guidebutton"
-        android:layout_width="155dp"
-        android:layout_height="192dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="40dp"
+        android:layout_width="155sp"
+        android:layout_height="200sp"
+        android:layout_marginTop="45sp"
+        android:layout_marginEnd="28sp"
+        android:layout_marginBottom="40sp"
         android:backgroundTint="#FF9800"
         android:fontFamily="sans-serif-black"
         android:text="\t \t \t \t \t \t \t \t \t \t \t \t User guide"
