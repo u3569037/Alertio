@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.ActionBarContextView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.visualizer.amplitude.AudioRecordView
@@ -226,6 +227,8 @@ class Operating : AppCompatActivity() {
             .setContentText("$danger detected at $timeStamp ")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         builder.run {  }
+
+
 
         //add the detected danger to record
         addRecord(danger)
