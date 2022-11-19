@@ -35,7 +35,7 @@
     <ListView
         android:id="@+id/list_view"
         android:layout_width="0dp"
-        android:layout_height="620dp"
+        android:layout_height="600sp"
         android:divider="@null"
         android:dividerHeight="5.0sp"
         android:fadeScrollbars="true"
@@ -44,6 +44,21 @@
         app:circularflow_angles="10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/clearBtn"
+        android:layout_width="100dp"
+        android:layout_height="50sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="#FFFFFF"
+        android:fontFamily="sans-serif-black"
+        android:shadowColor="#FFFFFF"
+        android:text="Clear"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/list_view"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,23 +1,42 @@
 package com.example.alertio
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Environment
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ListView
 import android.widget.SimpleAdapter
 import android.widget.Toast
+import java.io.File
 import java.io.FileInputStream
+import java.nio.file.Files
+import java.nio.file.Files.delete
+import java.nio.file.Files.deleteIfExists
+import java.nio.file.Paths
+import kotlin.io.path.deleteIfExists
 
 
 class PastRecord : AppCompatActivity() {
     private val file = "identificationRecord"
-
+    private var clearBtn : Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_past_record)
         window.statusBarColor = 0   //set status bar color to white
 
+        clearBtn = findViewById(R.id.clearBtn)
+        clearBtn!!.setOnClickListener(){
+            val file = Paths.get(applicationContext.filesDir.toString()+"\\identificationRecord")
+            deleteIfExists(file)
+            loadRecord()
+        }
 
+        loadRecord()
+    }
+
+    private fun loadRecord(){
         // add record to content view
         var recordList = arrayOf<String>()
         try {
@@ -34,8 +53,8 @@ class PastRecord : AppCompatActivity() {
             //Toast.makeText(getBaseContext(), "file read", Toast.LENGTH_SHORT).show()
 
         }
-            catch (e: Exception) {
-                //exe
+        catch (e: Exception) {
+            //exe
         }
 
 
