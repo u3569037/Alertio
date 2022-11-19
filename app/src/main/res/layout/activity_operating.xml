@@ -17,20 +17,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/app_logo800" />
 
-    <ImageButton
-        android:id="@+id/backBtn"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="36dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="#FFFFFF"
-        android:contentDescription="allow user to go back to homepage"
-        android:scaleType="fitCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back_arrow_left_icon" />
-
     <com.visualizer.amplitude.AudioRecordView
         android:id="@+id/audioRecordView"
         android:layout_width="0dp"
@@ -38,7 +24,7 @@
         android:layout_marginTop="16dp"
         app:chunkAlignTo="center"
         app:chunkColor="@android:color/holo_red_light"
-        app:chunkMaxHeight="150sp"
+        app:chunkMaxHeight="180sp"
         app:chunkMinHeight="10sp"
         app:chunkRoundedCorners="true"
         app:chunkSoftTransition="true"
@@ -49,6 +35,33 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+    <TextView
+        android:id="@+id/resultText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@null"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/audioRecordView" />
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="32dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:contentDescription="allow user to go back to homepage"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/startbtn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/back_arrow_left_icon" />
 
     <ImageButton
         android:id="@+id/startbtn"

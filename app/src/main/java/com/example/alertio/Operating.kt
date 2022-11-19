@@ -1,23 +1,27 @@
 package com.example.alertio
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.AudioFormat
 import android.media.AudioRecord
-import android.media.AudioRecord.getMinBufferSize
 import android.media.MediaRecorder
+import android.os.Build
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.visualizer.amplitude.AudioRecordView
 import java.io.FileOutputStream
+import java.io.IOException
+import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 
 
 class Operating : AppCompatActivity() {
@@ -27,11 +31,13 @@ class Operating : AppCompatActivity() {
     private var btnStart: ImageButton? = null
     private var toggle: Boolean = true
     private var audioRecordView: AudioRecordView? = null
-    private var audioRecord: AudioRecord? = null
-    //private var outputTextView: TextView? = null
+    private var resultText: TextView? = null
+    private var audioRecorder: MediaRecorder? = null
 
 
 
+    @SuppressLint("SimpleDateFormat")
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_operating)
@@ -40,6 +46,8 @@ class Operating : AppCompatActivity() {
         btnBack = findViewById<ImageButton>(R.id.backBtn)
         btnStart = findViewById<ImageButton>(R.id.startbtn)
         audioRecordView = findViewById(R.id.audioRecordView)
+        resultText = findViewById(R.id.resultText)
+        audioRecorder = MediaRecorder()
 
         //check mic presence of not
         val pm = packageManager
@@ -69,12 +77,6 @@ class Operating : AppCompatActivity() {
             requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
         }
 
-        audioRecord = AudioRecord(MediaRecorder.AudioSource.MIC,
-                        44100,
-                        AudioFormat.CHANNEL_IN_MONO,
-                        AudioFormat.ENCODING_PCM_8BIT,
-                        getMinBufferSize(44100, AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_8BIT))
-
 
 
         btnBack!!.setOnClickListener {
@@ -86,7 +88,7 @@ class Operating : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "Recording in progress. Please stop the recording first",
+                    "AI is running. \nPlease stop the AI first",
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -102,11 +104,29 @@ class Operating : AppCompatActivity() {
 
 
                 //audioRecordView!!.recreate()   // For clearing all drawn pattern
+                val date = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Date())
+                val filename = "audio_record_$date"
+                audioRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
+                audioRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                audioRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                audioRecorder!!.setOutputFile("${externalCacheDir?.absolutePath}/$filename.mp3")
+                try{
+                    audioRecorder!!.prepare()
+                } catch(e:IOException){
+                    Toast.makeText(
+                        this,
+                        e.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                audioRecorder!!.start()
 
                 //visualize audio
                 Thread {
                     while(!isStopped){
-                        audioRecordView!!.post { audioRecordView!!.update((0..10000).random())}
+                        audioRecordView!!.post { audioRecordView!!.update( audioRecorder!!.maxAmplitude)}
+                        resultText!!.post { resultText!!.text = "Current amplitude: "+ audioRecorder!!.maxAmplitude.toString() }
                         Thread.sleep(30)
                     }
                 }.start()
@@ -116,11 +136,14 @@ class Operating : AppCompatActivity() {
                 btnStart!!.setImageResource(R.drawable.start_button_icon)
                 toggle = true
                 isStopped = true
+
+                //audioRecord!!.stop()
+                audioRecorder!!.pause()
             }
         }
 
 
-        //addRecord("Bicycle ring")
+        addRecord("Bicycle ring")
     }
 
 
@@ -157,7 +180,7 @@ class Operating : AppCompatActivity() {
         } else {
             Toast.makeText(
                 this,
-                "AI in progress. \nPlease stop the AI first",
+                "AI is running. \nPlease stop the AI first",
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -168,7 +191,7 @@ class Operating : AppCompatActivity() {
 
     private fun addRecord(danger:String){
 
-        // code tried to change timezone
+        /* ------------- code tried to change timezone ------------- */
         // var strDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()) + "+0000"
         // var dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ")
         // var resultOfParsing = OffsetDateTime.parse(strDate, dateFormatter)
@@ -184,7 +207,7 @@ class Operating : AppCompatActivity() {
 
         try {
             val fOut: FileOutputStream = openFileOutput(file, MODE_APPEND)
-            fOut.write(data!!.toByteArray())
+            fOut.write(data.toByteArray())
             fOut.close()
             //Toast.makeText(this, "file saved", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
