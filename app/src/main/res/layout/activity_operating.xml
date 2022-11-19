@@ -21,7 +21,7 @@
         android:id="@+id/audioRecordView"
         android:layout_width="0dp"
         android:layout_height="200sp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         app:chunkAlignTo="center"
         app:chunkColor="@android:color/holo_red_light"
         app:chunkMaxHeight="180sp"
@@ -35,17 +35,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView8" />
-
-    <TextView
-        android:id="@+id/resultText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@null"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/audioRecordView" />
 
     <ImageButton
         android:id="@+id/backBtn"
@@ -83,9 +72,42 @@
         android:layout_marginBottom="32dp"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
+        android:contentDescription="redirect to past record"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/menu_icon" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="350sp"
+        android:layout_height="350sp"
+        android:backgroundTint="#E8E7E7"
+        android:elevation="20sp"
+        app:cardCornerRadius="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/audioRecordView">
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="180sp"
+            android:layout_height="180sp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ai_preload_icon" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/resultText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:elevation="30sp"
+        android:text="@null"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/audioRecordView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
