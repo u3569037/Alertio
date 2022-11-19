@@ -137,8 +137,8 @@ class Operating : AppCompatActivity() {
                 toggle = true
                 isStopped = true
 
-                //audioRecord!!.stop()
-                audioRecorder!!.pause()
+                audioRecorder!!.reset()
+
             }
         }
 
