@@ -2,18 +2,22 @@ package com.example.alertio
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.visualizer.amplitude.AudioRecordView
 import java.io.FileOutputStream
@@ -29,6 +33,7 @@ class Operating : AppCompatActivity() {
     private var isStopped = true
     private var btnBack: ImageButton? = null
     private var btnStart: ImageButton? = null
+    private var btnFile: ImageButton? = null
     private var toggle: Boolean = true
     private var audioRecordView: AudioRecordView? = null
     private var resultText: TextView? = null
@@ -36,7 +41,7 @@ class Operating : AppCompatActivity() {
 
 
 
-    @SuppressLint("SimpleDateFormat")
+
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +50,7 @@ class Operating : AppCompatActivity() {
 
         btnBack = findViewById<ImageButton>(R.id.backBtn)
         btnStart = findViewById<ImageButton>(R.id.startbtn)
+        btnFile = findViewById<ImageButton>(R.id.menuBtn)
         audioRecordView = findViewById(R.id.audioRecordView)
         resultText = findViewById(R.id.resultText)
         audioRecorder = MediaRecorder()
@@ -84,6 +90,21 @@ class Operating : AppCompatActivity() {
             if (isStopped) {
                 // go back to the main page
                 val intent = Intent(this@Operating, Homepage::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(
+                    this,
+                    "AI is running. \nPlease stop the AI first",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        btnFile!!.setOnClickListener {
+            //check if recording is stopped
+            if (isStopped) {
+                // go back to the main page
+                val intent = Intent(this@Operating, PastRecord::class.java)
                 startActivity(intent)
             } else {
                 Toast.makeText(
@@ -143,7 +164,7 @@ class Operating : AppCompatActivity() {
         }
 
 
-        addRecord("Bicycle ring")
+        alertUSER("Bicycle ring")
     }
 
 
@@ -185,6 +206,32 @@ class Operating : AppCompatActivity() {
             ).show()
         }
     }
+
+    //call this when detect danger
+    private fun alertUSER(danger:String){
+
+        //vibrate
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(3000, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(3000)
+        }
+
+        //send notification
+        val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
+        var builder = NotificationCompat.Builder(this, "i.apps.notifications")
+            .setSmallIcon(R.drawable.appicon)
+            .setContentTitle("Potential danger detected")
+            .setContentText("$danger detected at $timeStamp ")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        builder.run {  }
+
+        //add the detected danger to record
+        addRecord(danger)
+    }
+
+
 
 
 
