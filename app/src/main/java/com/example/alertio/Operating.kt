@@ -5,12 +5,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.ActionBarContextView
+import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.visualizer.amplitude.AudioRecordView
@@ -227,6 +230,17 @@ class Operating : AppCompatActivity() {
             .setContentText("$danger detected at $timeStamp ")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         builder.run {  }
+
+        //change card color
+        Thread {
+            val card: View = findViewById<CardView>(R.id.view)
+            card.setBackgroundColor(Color.RED)
+
+
+            Thread.sleep(3000)
+            card.setBackgroundColor(Color.TRANSPARENT)
+
+        }.start()
 
 
 

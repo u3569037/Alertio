@@ -79,6 +79,7 @@
         app:srcCompat="@drawable/menu_icon" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/warningBox"
         android:layout_width="350sp"
         android:layout_height="350sp"
         android:backgroundTint="#E8E7E7"
@@ -88,11 +89,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/audioRecordView">
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <ImageView
             android:id="@+id/imageView9"
             android:layout_width="180sp"
-            android:layout_height="180sp"
+            android:layout_height="183dp"
             android:layout_gravity="center"
+            android:contentDescription="preload logo of the AI"
             app:srcCompat="@drawable/ai_preload_icon" />
     </androidx.cardview.widget.CardView>
 
