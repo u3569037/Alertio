@@ -30,7 +30,7 @@
         app:chunkSoftTransition="true"
         app:chunkSpace="1dp"
         app:chunkWidth="5sp"
-        app:direction="rightToLeft"
+        app:direction="leftToRight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
