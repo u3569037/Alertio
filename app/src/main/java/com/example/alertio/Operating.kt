@@ -1,23 +1,22 @@
 package com.example.alertio
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.media.AudioFormat
+import android.media.AudioRecord
+import android.media.AudioRecord.getMinBufferSize
+import android.media.MediaRecorder
 import android.os.Bundle
-
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
-import android.os.Handler
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.HandlerCompat.postDelayed
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.visualizer.amplitude.AudioRecordView
 import java.io.FileOutputStream
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.OffsetDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -28,6 +27,7 @@ class Operating : AppCompatActivity() {
     private var btnStart: ImageButton? = null
     private var toggle: Boolean = true
     private var audioRecordView: AudioRecordView? = null
+    private var audioRecord: AudioRecord? = null
     //private var outputTextView: TextView? = null
 
 
@@ -40,6 +40,42 @@ class Operating : AppCompatActivity() {
         btnBack = findViewById<ImageButton>(R.id.backBtn)
         btnStart = findViewById<ImageButton>(R.id.startbtn)
         audioRecordView = findViewById(R.id.audioRecordView)
+
+        //check mic presence of not
+        val pm = packageManager
+        val micPresent = pm.hasSystemFeature(PackageManager.FEATURE_MICROPHONE)
+        if (!micPresent) {
+            Toast.makeText(this, "Your device doesn't have a microphone", Toast.LENGTH_LONG).show()
+            finish()
+        }
+
+        val requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    // Permission is granted
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Microphone is needed to perform AI analysis",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    finish()
+                }
+            }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
+            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        }
+
+        audioRecord = AudioRecord(MediaRecorder.AudioSource.MIC,
+                        44100,
+                        AudioFormat.CHANNEL_IN_MONO,
+                        AudioFormat.ENCODING_PCM_8BIT,
+                        getMinBufferSize(44100, AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_8BIT))
+
+
 
         btnBack!!.setOnClickListener {
             //check if recording is stopped
@@ -62,13 +98,19 @@ class Operating : AppCompatActivity() {
                 toggle = false
                 isStopped = false
 
-                audioRecordView!!.recreate()
-                Timer().schedule(object : TimerTask() {
-                    override fun run() {
-                        val currentMaxAmplitude = 8000
-                        audioRecordView!!.update(currentMaxAmplitude)
+
+
+
+                //audioRecordView!!.recreate()   // For clearing all drawn pattern
+
+                //visualize audio
+                Thread {
+                    while(!isStopped){
+                        audioRecordView!!.post { audioRecordView!!.update((0..10000).random())}
+                        Thread.sleep(30)
                     }
-                }, 10)
+                }.start()
+
 
             } else{   //stopRecording
                 btnStart!!.setImageResource(R.drawable.start_button_icon)
@@ -81,13 +123,41 @@ class Operating : AppCompatActivity() {
         //addRecord("Bicycle ring")
     }
 
+
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            (requestCode) -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() &&
+                            grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // Permission is granted.
+                } else {
+//                    Toast.makeText(
+//                        this,
+//                        "Microphone is needed to perform AI analysis",
+//                        Toast.LENGTH_LONG
+//                    ).show()
+
+                    //finish()
+                }
+                return
+            }
+            else -> {
+                // Ignore all other requests.
+            }
+        }
+    }
+
     override fun onBackPressed() {
         if (isStopped) {
             super.onBackPressed()
         } else {
             Toast.makeText(
                 this,
-                "Recording in progress. Please stop the recording first",
+                "AI in progress. \nPlease stop the AI first",
                 Toast.LENGTH_LONG
             ).show()
         }
