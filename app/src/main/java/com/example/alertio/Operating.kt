@@ -235,7 +235,10 @@ class Operating : AppCompatActivity() {
 //                        tempBuffer.order(ByteOrder.LITTLE_ENDIAN)
 //                        tempBuffer.put(buffer.get(0))
 //                        tempBuffer.put(buffer.get(1))
-                        val amplitude = abs(buffer.get(0) + buffer.get(1)*128)/2
+                        var amplitude = abs(buffer.get(0) + buffer.get(1)*128)/2
+                        if (amplitude == 0){
+                            amplitude = 1000
+                        }
                         //val amplitude = abs(tempBuffer.getShort(0).toInt())
                         audioRecordView!!.post { audioRecordView!!.update( amplitude.toInt()  )}
                         //resultText!!.post { resultText!!.text = "Current amplitude: $amplitude" }
