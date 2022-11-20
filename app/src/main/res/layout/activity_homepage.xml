@@ -59,12 +59,13 @@
 
         <TextView
             android:id="@+id/cardmsg"
-            android:layout_width="332sp"
-            android:layout_height="match_parent"
+            android:layout_width="302dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
             android:alpha="0.9"
             android:fontFamily="sans-serif-black"
-            android:paddingTop="20sp"
-            android:text="\n Danger alert \n  with AI \n sound \n recognition \n technology"
+            android:paddingRight="20sp"
+            android:text="Danger alert \n  with AI \n sound \n recognition \n technology"
             android:textAlignment="viewEnd"
             android:textColor="@color/white"
             android:textSize="24sp"
