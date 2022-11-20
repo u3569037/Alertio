@@ -72,7 +72,6 @@ class Operating : AppCompatActivity() {
         audioRecordView = findViewById(R.id.audioRecordView)
         resultText = findViewById(R.id.resultText)
         audioRecorder = MediaRecorder()
-        outputTextView = findViewById(R.id.outputTextView)
 
 
 
@@ -158,7 +157,7 @@ class Operating : AppCompatActivity() {
                     val outputStr = filteredModelOutput.sortedBy { -it.score }
                         .joinToString(separator = "\n") { "${it.label} -> ${it.score} " }
                     runOnUiThread {
-                        outputTextView.text = outputStr
+                        resultText!!.text = outputStr
                     }
                 }
 /*
@@ -215,7 +214,7 @@ class Operating : AppCompatActivity() {
                 Thread {
                     while(!isStopped){
                         audioRecordView!!.post { audioRecordView!!.update( audioRecorder!!.maxAmplitude)}
-                        resultText!!.post { resultText!!.text = "Current amplitude: "+ audioRecorder!!.maxAmplitude.toString() }
+                        //resultText!!.post { resultText!!.text = "Current amplitude: "+ audioRecorder!!.maxAmplitude.toString() }
                         Thread.sleep(30)
                     }
                 }.start()*/
