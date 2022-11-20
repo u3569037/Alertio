@@ -1,7 +1,6 @@
 package com.example.alertio
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -19,17 +18,17 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.ActionBarContextView
 import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.visualizer.amplitude.AudioRecordView
+import org.tensorflow.lite.support.audio.TensorAudio
+import org.tensorflow.lite.task.audio.classifier.AudioClassifier
 import java.io.FileOutputStream
 import java.io.IOException
-import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.abs
+import kotlin.concurrent.scheduleAtFixedRate
 
 
 class Operating : AppCompatActivity() {
@@ -42,12 +41,27 @@ class Operating : AppCompatActivity() {
     private var audioRecordView: AudioRecordView? = null
     private var resultText: TextView? = null
     private var audioRecorder: MediaRecorder? = null
+    private lateinit var outputTextView:TextView
 
+    private lateinit var audioRecord: AudioRecord
+    private var modelPath = "lite-model_yamnet_classification_tflite_1.tflite"
+    private lateinit var timerTask: TimerTask
 
+    private lateinit var audioClassifier: AudioClassifier
+    private lateinit var tensorAudio: TensorAudio
+
+    //audioClassifier = AudioClassifier.createFromFile(this, modelPath)
 
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
+        //load model from assets folder
+        try {
+            audioClassifier = AudioClassifier.createFromFile(this, modelPath)
+        } catch (e: IOException) {
+            e.printStackTrace()
+
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_operating)
         window.statusBarColor = 0   //set status bar color to white
@@ -58,6 +72,12 @@ class Operating : AppCompatActivity() {
         audioRecordView = findViewById(R.id.audioRecordView)
         resultText = findViewById(R.id.resultText)
         audioRecorder = MediaRecorder()
+        outputTextView = findViewById(R.id.outputTextView)
+
+
+
+        // Create the variable that will store the recording for inference and build the format specification for the recorder.
+        tensorAudio = audioClassifier.createInputTensorAudio()
 
         //check mic presence of not
         val pm = packageManager
@@ -125,10 +145,54 @@ class Operating : AppCompatActivity() {
                 toggle = false
                 isStopped = false
 
+                //create audio recorder and start recording
+                audioRecord = audioClassifier.createAudioRecord()
+                audioRecord.startRecording()
 
+                Timer().scheduleAtFixedRate( 1, 500){
+                    tensorAudio.load(audioRecord)
+                    val output = audioClassifier.classify(tensorAudio)
+                    val filteredModelOutput = output[0].categories.filter {
+                        it.score > 0.3f
+                    }
+                    val outputStr = filteredModelOutput.sortedBy { -it.score }
+                        .joinToString(separator = "\n") { "${it.label} -> ${it.score} " }
+                    runOnUiThread {
+                        outputTextView.text = outputStr
+                    }
+                }
+/*
+                timerTask = object: TimerTask() {
+                    override fun run() {
+                        var output = audioClassifier.classify(tensorAudio)
+
+                        //filter out classifications with low probability
+                        var finalOutput = ArrayList<org.tensorflow.lite.support.label.Category>()
+                        for (classifications in output) {
+                            for (category in classifications.categories){
+                                if (category.score > 0.3f) {
+                                    finalOutput.add(category)
+                                }
+                            }
+                        }
+                        //create a multiline string with the filtered result
+                        var outputStr = StringBuilder()
+                        for (category in finalOutput) {
+                            outputStr.append(category.label).append((": ")).append(category.score).append("\n")
+                        }
+
+                        Thread {
+                            runOnUiThread {
+                                outputTextView?.setText(outputStr.toString())
+                            }
+                        }
+
+
+                    }*/
 
 
                 //audioRecordView!!.recreate()   // For clearing all drawn pattern
+/*
                 val date = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Date())
                 val filename = "audio_record_$date"
                 audioRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -154,18 +218,22 @@ class Operating : AppCompatActivity() {
                         resultText!!.post { resultText!!.text = "Current amplitude: "+ audioRecorder!!.maxAmplitude.toString() }
                         Thread.sleep(30)
                     }
-                }.start()
+                }.start()*/
 
 
-            } else{   //stopRecording
+
+
+            }else {   //stopRecording
                 btnStart!!.setImageResource(R.drawable.start_button_icon)
                 toggle = true
                 isStopped = true
-
-                audioRecorder!!.reset()
+                audioRecord.stop()
+               // audioRecorder!!.reset()
 
             }
         }
+
+
 
 
         alertUSER("Bicycle ring")
@@ -175,7 +243,7 @@ class Operating : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
-        //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             (requestCode) -> {
                 // If request is cancelled, the result arrays are empty.
