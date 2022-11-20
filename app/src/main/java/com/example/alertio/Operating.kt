@@ -5,11 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.media.AudioFormat
 import android.media.AudioFormat.CHANNEL_IN_MONO
 import android.media.AudioFormat.ENCODING_PCM_16BIT
 import android.media.AudioRecord
-import android.media.AudioRecord.READ_BLOCKING
 import android.media.AudioRecord.READ_NON_BLOCKING
 import android.media.MediaRecorder
 import android.os.Build
@@ -32,7 +30,6 @@ import org.tensorflow.lite.task.audio.classifier.AudioClassifier
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.ByteBuffer
-import java.nio.ByteOrder
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.scheduleAtFixedRate
@@ -157,8 +154,8 @@ class Operating : AppCompatActivity() {
                 audioRecord.startRecording()
 
                 val bufferSize = AudioRecord.getMinBufferSize(44100, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
-                //var buffer : ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
-                var buffer = ShortArray(bufferSize)
+                var buffer : ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
+                //var buffer = ShortArray(bufferSize)
                 Thread {
                     while (!isStopped){
                         audioRecord.read(buffer, 0, bufferSize*2)
@@ -166,8 +163,8 @@ class Operating : AppCompatActivity() {
                 }.start()
 
                 Timer().scheduleAtFixedRate( 1, 500){
-                    //tensorAudio.load(audioRecord)
-                    tensorAudio.load(buffer)
+                    tensorAudio.load(audioRecord)
+                    //tensorAudio.load(buffer)
                     val output = audioClassifier.classify(tensorAudio)
                     val filteredModelOutput = output[0].categories.filter {
                         it.score > 0.5f
@@ -231,7 +228,8 @@ class Operating : AppCompatActivity() {
                 //visualize audio
                 Thread {
                     while(!isStopped){
-                        //audioRecord.read(buffer, 0, bufferSize)
+                        //var buffer = ByteArray(1000)
+                        audioRecord.read(buffer, bufferSize, READ_NON_BLOCKING)
                         //var buffer = tensorAudio.getTensorBuffer().getBuffer()
 
                         //var bytes : ByteArray = ByteArray(buffer.remaining())
@@ -241,10 +239,22 @@ class Operating : AppCompatActivity() {
 //                        tempBuffer.order(ByteOrder.LITTLE_ENDIAN)
 //                        tempBuffer.put(buffer.get(0))
 //                        tempBuffer.put(buffer.get(1))
-                        //var amplitude = abs(buffer.get(0) + buffer.get(1)*128)/2
+//                        var amplitude = 0
+//                        for (i in (0 until 50)){
+//                            if (abs(buffer.get(i) + buffer.get(i+1)*128)/2 > amplitude){
+//                                amplitude = abs(buffer.get(i) + buffer.get(i+1)*128)/2
+//                            }
+//                        }
+                        var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
+                        if (amplitude<1000){
+                            amplitude = 1000
+                        }
                         //val amplitude = abs(tempBuffer.getShort(0).toInt())
-                        var amplitude = buffer.max()/2
-                        audioRecordView!!.post { audioRecordView!!.update( amplitude.toInt()  )}
+                        //var amplitude = buffer.max()/2
+                        //var amplitude = audioRecorder!!.getMaxAmplitude()
+
+                        //var amplitude = Math.max(abs(buffer.max().toInt()),abs(buffer.min().toInt()))
+                        audioRecordView!!.post { audioRecordView!!.update( amplitude.toInt() )}
                         //resultText!!.post { resultText!!.text = "Current amplitude: $amplitude" }
                         Thread.sleep(30)
                     }
@@ -258,7 +268,7 @@ class Operating : AppCompatActivity() {
                 toggle = true
                 isStopped = true
                 audioRecord.stop()
-               // audioRecorder!!.reset()
+                //audioRecorder!!.reset()
 
             }
         }
