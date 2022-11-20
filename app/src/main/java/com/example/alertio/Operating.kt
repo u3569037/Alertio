@@ -42,6 +42,7 @@ class Operating : AppCompatActivity() {
     private var audioRecordView: AudioRecordView? = null
     private var resultText: TextView? = null
     private var audioRecorder: MediaRecorder? = null
+    private var isVibrating : Boolean = false
 
 
 
@@ -168,7 +169,7 @@ class Operating : AppCompatActivity() {
         }
 
 
-        alertUSER("Bicycle ring")
+        //alertUSER("Bicycle ring")
     }
 
 
@@ -213,39 +214,44 @@ class Operating : AppCompatActivity() {
 
     //call this when detect danger
     private fun alertUSER(danger:String){
+        if (!isVibrating){
+            isVibrating = true
 
-        //vibrate
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        if (Build.VERSION.SDK_INT >= 26) {
-            vibrator.vibrate(VibrationEffect.createOneShot(3000, VibrationEffect.DEFAULT_AMPLITUDE))
-        } else {
-            vibrator.vibrate(3000)
+            //vibrate
+            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if (Build.VERSION.SDK_INT >= 26) {
+                vibrator.vibrate(VibrationEffect.createOneShot(3000, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                vibrator.vibrate(3000)
+            }
+
+            //send notification
+            val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
+            var builder = NotificationCompat.Builder(this, "i.apps.notifications")
+                .setSmallIcon(R.drawable.appicon)
+                .setContentTitle("Potential danger detected")
+                .setContentText("$danger detected at $timeStamp ")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            builder.run {  }
+
+            //change card color
+            Thread {
+                val card: View = findViewById<CardView>(R.id.view)
+                card.setBackgroundColor(Color.RED)
+
+
+                Thread.sleep(3000)
+                card.setBackgroundColor(Color.TRANSPARENT)
+                isVibrating = false
+
+            }.start()
+
+
+
+            //add the detected danger to record
+            addRecord(danger)
         }
 
-        //send notification
-        val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
-        var builder = NotificationCompat.Builder(this, "i.apps.notifications")
-            .setSmallIcon(R.drawable.appicon)
-            .setContentTitle("Potential danger detected")
-            .setContentText("$danger detected at $timeStamp ")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        builder.run {  }
-
-        //change card color
-        Thread {
-            val card: View = findViewById<CardView>(R.id.view)
-            card.setBackgroundColor(Color.RED)
-
-
-            Thread.sleep(3000)
-            card.setBackgroundColor(Color.TRANSPARENT)
-
-        }.start()
-
-
-
-        //add the detected danger to record
-        addRecord(danger)
     }
 
 
