@@ -54,11 +54,14 @@
         android:layout_marginBottom="4dp"
         android:backgroundTint="#FFFFFF"
         android:fontFamily="sans-serif-black"
+        android:outlineAmbientShadowColor="#FFFFFF"
         android:shadowColor="#FFFFFF"
         android:text="Clear"
         android:textColor="#000000"
         android:textSize="14sp"
+        app:cornerRadius="20sp"
         app:layout_constraintBottom_toTopOf="@+id/list_view"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

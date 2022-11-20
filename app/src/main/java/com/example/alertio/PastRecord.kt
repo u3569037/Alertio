@@ -28,7 +28,7 @@ class PastRecord : AppCompatActivity() {
 
         clearBtn = findViewById(R.id.clearBtn)
         clearBtn!!.setOnClickListener(){
-            val file = Paths.get(applicationContext.filesDir.toString()+"\\identificationRecord")
+            val file = Paths.get("data/data/com.example.alertio/files/identificationRecord")
             deleteIfExists(file)
             loadRecord()
         }
