@@ -156,12 +156,18 @@ class Operating : AppCompatActivity() {
                 audioRecord = audioClassifier.createAudioRecord()
                 audioRecord.startRecording()
 
-                //val bufferSize = AudioRecord.getMinBufferSize(44100, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
+                val bufferSize = AudioRecord.getMinBufferSize(44100, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
                 //var buffer : ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
-
+                var buffer = ShortArray(bufferSize)
+                Thread {
+                    while (!isStopped){
+                        audioRecord.read(buffer, 0, bufferSize*2)
+                    }
+                }.start()
 
                 Timer().scheduleAtFixedRate( 1, 500){
-                    tensorAudio.load(audioRecord)
+                    //tensorAudio.load(audioRecord)
+                    tensorAudio.load(buffer)
                     val output = audioClassifier.classify(tensorAudio)
                     val filteredModelOutput = output[0].categories.filter {
                         it.score > 0.5f
@@ -225,8 +231,8 @@ class Operating : AppCompatActivity() {
                 //visualize audio
                 Thread {
                     while(!isStopped){
-                        //audioRecord.read(buffer, bufferSize, READ_NON_BLOCKING)
-                        var buffer = tensorAudio.getTensorBuffer().getBuffer()
+                        //audioRecord.read(buffer, 0, bufferSize)
+                        //var buffer = tensorAudio.getTensorBuffer().getBuffer()
 
                         //var bytes : ByteArray = ByteArray(buffer.remaining())
                         //var shorts : ShortArray = ShortArray(bytes.size/2)
@@ -235,11 +241,9 @@ class Operating : AppCompatActivity() {
 //                        tempBuffer.order(ByteOrder.LITTLE_ENDIAN)
 //                        tempBuffer.put(buffer.get(0))
 //                        tempBuffer.put(buffer.get(1))
-                        var amplitude = abs(buffer.get(0) + buffer.get(1)*128)/2
-                        if (amplitude == 0){
-                            amplitude = 1000
-                        }
+                        //var amplitude = abs(buffer.get(0) + buffer.get(1)*128)/2
                         //val amplitude = abs(tempBuffer.getShort(0).toInt())
+                        var amplitude = buffer.max()/2
                         audioRecordView!!.post { audioRecordView!!.update( amplitude.toInt()  )}
                         //resultText!!.post { resultText!!.text = "Current amplitude: $amplitude" }
                         Thread.sleep(30)
@@ -328,11 +332,11 @@ class Operating : AppCompatActivity() {
         //change card color
         Thread {
             val card: View = findViewById<CardView>(R.id.view)
-            card.setBackgroundColor(Color.RED)
+            card.post({card.setBackgroundColor(Color.RED)})
 
 
             Thread.sleep(3000)
-            card.setBackgroundColor(Color.TRANSPARENT)
+            card.post({card.setBackgroundColor(Color.TRANSPARENT)})
 
         }.start()
 
