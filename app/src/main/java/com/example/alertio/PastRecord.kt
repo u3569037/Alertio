@@ -14,6 +14,7 @@ import java.nio.file.Files
 import java.nio.file.Files.delete
 import java.nio.file.Files.deleteIfExists
 import java.nio.file.Paths
+import java.time.Duration
 import kotlin.io.path.deleteIfExists
 
 
@@ -28,7 +29,9 @@ class PastRecord : AppCompatActivity() {
 
         clearBtn = findViewById(R.id.clearBtn)
         clearBtn!!.setOnClickListener(){
-            val file = Paths.get("data/data/com.example.alertio/files/identificationRecord")
+            val file = Paths.get("data/data/com.example.alertio/files/identificationRecord")   //hardcode
+            //Toast.makeText(baseContext, getExternalFilesDir("identificationRecord").toString(), Toast.LENGTH_LONG).show()
+            //val file = Paths.get(getExternalFilesDir("identificationRecord").toString())   //not working
             deleteIfExists(file)
             loadRecord()
         }
