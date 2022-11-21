@@ -136,7 +136,7 @@ class Operating : AppCompatActivity() {
                 startActivity(intent)
             } else {
                 Toast.makeText(
-                    this,
+                    this@Operating,
                     "AI is running. \nPlease stop the AI first",
                     Toast.LENGTH_LONG
                 ).show()
@@ -156,21 +156,26 @@ class Operating : AppCompatActivity() {
                 val bufferSize = AudioRecord.getMinBufferSize(44100, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
                 var buffer : ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
                 //var buffer = ShortArray(bufferSize)
-                Thread {
-                    while (!isStopped){
-                        audioRecord.read(buffer, 0, bufferSize*2)
-                    }
-                }.start()
+            /*    Thread {
+                while (!isStopped){
+                    audioRecord.read(buffer, 0, bufferSize*2)
+                }
+                }.start()*/
 
                 Timer().scheduleAtFixedRate( 1, 500){
                     tensorAudio.load(audioRecord)
                     //tensorAudio.load(buffer)
                     val output = audioClassifier.classify(tensorAudio)
                     val filteredModelOutput = output[0].categories.filter {
-                        it.score > 0.5f
+                        it.score > 0.3f
                     }
                     val outputStr = filteredModelOutput.sortedBy { -it.score }
                         .joinToString(separator = "\n") { "${it.label} -> ${it.score} " }
+
+                    if (output[0].categories[0].label == "Cough") {
+                        alertUSER("Cough")
+
+                    }
                     runOnUiThread {
                         resultText!!.text = outputStr
                     }
@@ -339,8 +344,10 @@ class Operating : AppCompatActivity() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         builder.run {  }
 
+
         //change card color
-        Thread {
+        
+        runOnUiThread {
             val card: View = findViewById<CardView>(R.id.view)
             card.post({card.setBackgroundColor(Color.RED)})
 
@@ -348,7 +355,7 @@ class Operating : AppCompatActivity() {
             Thread.sleep(3000)
             card.post({card.setBackgroundColor(Color.TRANSPARENT)})
 
-        }.start()
+        }
 
 
 
