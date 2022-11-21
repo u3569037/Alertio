@@ -347,15 +347,21 @@ class Operating : AppCompatActivity() {
 
         //change card color
         
-        runOnUiThread {
+        Thread {
             val card: View = findViewById<CardView>(R.id.view)
-            card.post({card.setBackgroundColor(Color.RED)})
+            runOnUiThread {
+                card.setBackgroundColor(Color.RED)
+            }
+            //card.post({card.setBackgroundColor(Color.RED)})
 
 
             Thread.sleep(3000)
-            card.post({card.setBackgroundColor(Color.TRANSPARENT)})
+            runOnUiThread {
+                card.setBackgroundColor(Color.TRANSPARENT)
+            }
+            //card.post({card.setBackgroundColor(Color.TRANSPARENT)})
 
-        }
+        }.start()
 
 
 
