@@ -77,6 +77,7 @@ class Operating : AppCompatActivity() {
         audioRecordView = findViewById(R.id.audioRecordView)
         resultText = findViewById(R.id.resultText)
         //audioRecorder = MediaRecorder()
+        val danger : List<String> = listOf("Shout","Yell","Vehicle horn, car horn, honking", "car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling")
 
 
 
@@ -351,6 +352,7 @@ class Operating : AppCompatActivity() {
             val card: View = findViewById<CardView>(R.id.view)
             runOnUiThread {
                 card.setBackgroundColor(Color.RED)
+                
             }
             //card.post({card.setBackgroundColor(Color.RED)})
 
