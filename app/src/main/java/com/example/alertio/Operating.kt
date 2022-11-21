@@ -170,7 +170,7 @@ class Operating : AppCompatActivity() {
                         it.score > 0.3f
                     }
                     val outputStr = filteredModelOutput.sortedBy { -it.score }
-                        .joinToString(separator = "\n") { "${it.label} -> ${it.score} " }
+                        .joinToString(separator = "\n") { "${it.label} -> ${(it.score*100).toInt()}% " }
 
                     if (output[0].categories[0].label == "Cough") {
                         alertUSER("Cough")
