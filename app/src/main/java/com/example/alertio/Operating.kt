@@ -16,6 +16,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -47,6 +48,8 @@ class Operating : AppCompatActivity() {
     private var resultText: TextView? = null
     private var audioRecorder: MediaRecorder? = null
     private lateinit var outputTextView:TextView
+    private lateinit var graphicText: ImageView
+
 
     private lateinit var audioRecord: AudioRecord
     private var modelPath = "lite-model_yamnet_classification_tflite_1.tflite"
@@ -76,8 +79,9 @@ class Operating : AppCompatActivity() {
         btnFile = findViewById<ImageButton>(R.id.menuBtn)
         audioRecordView = findViewById(R.id.audioRecordView)
         resultText = findViewById(R.id.resultText)
+        graphicText = findViewById(R.id.imageView9)
         //audioRecorder = MediaRecorder()
-        val danger : List<String> = listOf("Shout","Yell","Vehicle horn, car horn, honking", "car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling")
+        val danger : List<String> = listOf("Speech","Shout","Yell","Vehicle horn, car horn, honking", "car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling")
 
 
 
@@ -173,10 +177,18 @@ class Operating : AppCompatActivity() {
                     val outputStr = filteredModelOutput.sortedBy { -it.score }
                         .joinToString(separator = "\n") { "${it.label} -> ${(it.score*100).toInt()}% " }
 
-                    if (output[0].categories[0].label == "Cough") {
-                        alertUSER("Cough")
+                    for (label:String in danger) {
+                        if (output[0].categories[0].label == label) {
+                            alertUSER(label)
 
+                        }
                     }
+                 /*   if (output[0].categories[0].label == "Alarm clock") {
+                        alertUSER("Alarm clock")
+
+                    }*/
+
+
                     runOnUiThread {
                         resultText!!.text = outputStr
                     }
@@ -350,16 +362,20 @@ class Operating : AppCompatActivity() {
         
         Thread {
             val card: View = findViewById<CardView>(R.id.view)
-            runOnUiThread {
-                card.setBackgroundColor(Color.RED)
-                
+            if (danger == "Speech") {
+                runOnUiThread {
+                    card.setBackgroundColor(Color.RED)
+                    graphicText.setImageResource(R.drawable.alarm_clock)
+                }
             }
+
             //card.post({card.setBackgroundColor(Color.RED)})
 
 
             Thread.sleep(3000)
             runOnUiThread {
                 card.setBackgroundColor(Color.TRANSPARENT)
+                graphicText.setImageResource(R.drawable.ai_preload_icon)
             }
             //card.post({card.setBackgroundColor(Color.TRANSPARENT)})
 
