@@ -44,6 +44,7 @@ class Operating : AppCompatActivity() {
     private var btnStart: ImageButton? = null
     private var btnFile: ImageButton? = null
     private var toggle: Boolean = true
+    private var isVibrating = false
     private var audioRecordView: AudioRecordView? = null
     private var resultText: TextView? = null
     private var audioRecorder: MediaRecorder? = null
@@ -84,9 +85,6 @@ class Operating : AppCompatActivity() {
         val danger : List<String> = listOf("Speech","Shout","Yell","Vehicle horn, car horn, honking", "car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling")
 
 
-
-        // Create the variable that will store the recording for inference and build the format specification for the recorder.
-        tensorAudio = audioClassifier.createInputTensorAudio()
 
         //check mic presence of not
         val pm = packageManager
@@ -153,6 +151,9 @@ class Operating : AppCompatActivity() {
                 btnStart!!.setImageResource(R.drawable.stop_button_icon)
                 toggle = false
                 isStopped = false
+
+                // Create the variable that will store the recording for inference and build the format specification for the recorder.
+                tensorAudio = audioClassifier.createInputTensorAudio()
 
                 //create audio recorder and start
                 audioRecord = audioClassifier.createAudioRecord()
@@ -247,8 +248,8 @@ class Operating : AppCompatActivity() {
                 Thread {
                     while(!isStopped){
                         //var buffer = ByteArray(1000)
-                        audioRecord.read(buffer, bufferSize, READ_NON_BLOCKING)
-                        //var buffer = tensorAudio.getTensorBuffer().getBuffer()
+                        //audioRecord.read(buffer, bufferSize, READ_NON_BLOCKING)
+                        var buffer = tensorAudio.getTensorBuffer().getBuffer()
 
                         //var bytes : ByteArray = ByteArray(buffer.remaining())
                         //var shorts : ShortArray = ShortArray(bytes.size/2)
@@ -339,52 +340,56 @@ class Operating : AppCompatActivity() {
 
     //call this when detect danger
     private fun alertUSER(danger:String){
+        if (!isVibrating){
+            isVibrating = true
 
-        //vibrate
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        if (Build.VERSION.SDK_INT >= 26) {
-            vibrator.vibrate(VibrationEffect.createOneShot(3000, VibrationEffect.DEFAULT_AMPLITUDE))
-        } else {
-            vibrator.vibrate(3000)
-        }
+            //vibrate
+            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if (Build.VERSION.SDK_INT >= 26) {
+                vibrator.vibrate(VibrationEffect.createOneShot(3000, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                vibrator.vibrate(3000)
+            }
 
-        //send notification
-        val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
-        var builder = NotificationCompat.Builder(this, "i.apps.notifications")
-            .setSmallIcon(R.drawable.appicon)
-            .setContentTitle("Potential danger detected")
-            .setContentText("$danger detected at $timeStamp ")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        builder.run {  }
+            //send notification
+            val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
+            var builder = NotificationCompat.Builder(this, "i.apps.notifications")
+                .setSmallIcon(R.drawable.appicon)
+                .setContentTitle("Potential danger detected")
+                .setContentText("$danger detected at $timeStamp ")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            builder.run {  }
 
 
-        //change card color
-        
-        Thread {
-            val card: View = findViewById<CardView>(R.id.view)
-            if (danger == "Speech") {
-                runOnUiThread {
-                    card.setBackgroundColor(Color.RED)
-                    graphicText.setImageResource(R.drawable.alarm_clock)
+            //change card color
+
+            Thread {
+                val card: View = findViewById<CardView>(R.id.view)
+                if (danger == "Speech") {
+                    runOnUiThread {
+                        card.setBackgroundColor(Color.RED)
+                        graphicText.setImageResource(R.drawable.alarm_clock)
+                    }
                 }
-            }
+                Thread.sleep(3000)
+                runOnUiThread {
+                    card.setBackgroundColor(Color.TRANSPARENT)
+                    graphicText.setImageResource(R.drawable.ai_preload_icon)
+                }
 
-            //card.post({card.setBackgroundColor(Color.RED)})
+                isVibrating = false
+            }.start()
 
+            //add the detected danger to record
+            addRecord(danger)
 
-            Thread.sleep(3000)
-            runOnUiThread {
-                card.setBackgroundColor(Color.TRANSPARENT)
-                graphicText.setImageResource(R.drawable.ai_preload_icon)
-            }
-            //card.post({card.setBackgroundColor(Color.TRANSPARENT)})
+            return
+        } else{
+            //add the detected danger to record
+            addRecord(danger)
 
-        }.start()
-
-
-
-        //add the detected danger to record
-        addRecord(danger)
+            return
+        }
     }
 
 
