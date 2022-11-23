@@ -48,7 +48,7 @@ class Operating : AppCompatActivity() {
     private var isVibrating = false
     private var audioRecordView: AudioRecordView? = null
     private var resultText: TextView? = null
-    private var audioRecorder: MediaRecorder? = null
+    //private var audioRecorder: MediaRecorder? = null
     private lateinit var outputTextView:TextView
     private lateinit var graphicText: ImageView
 
@@ -60,7 +60,6 @@ class Operating : AppCompatActivity() {
     private lateinit var audioClassifier: AudioClassifier
     private lateinit var tensorAudio: TensorAudio
 
-    //audioClassifier = AudioClassifier.createFromFile(this, modelPath)
 
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -161,30 +160,30 @@ class Operating : AppCompatActivity() {
                 audioRecord = audioClassifier.createAudioRecord()
                 audioRecord.startRecording()
 
-                //val bufferSize = AudioRecord.getMinBufferSize(44100, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
-                val bufferSize = 62400
-                var buffer : ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
+                val bufferSize = AudioRecord.getMinBufferSize(44100, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
+//                val bufferSize = 62400
+//                var buffer : ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
                 //var buffer = ShortArray(bufferSize)
 
-                Thread {
-                    while (!isStopped){
-                        audioRecord.positionNotificationPeriod = bufferSize/2
-                        audioRecord.read(buffer,  bufferSize, READ_NON_BLOCKING)
-                    }
-                    return@Thread
-                }.start()
+//                Thread {
+//                    while (!isStopped){
+//                        audioRecord.positionNotificationPeriod = bufferSize/2
+//                        audioRecord.read(buffer,  bufferSize, READ_NON_BLOCKING)
+//                    }
+//                    return@Thread
+//                }.start()
 
                 Timer().scheduleAtFixedRate( 1, 500){
-//                    if (isStopped){
-//                        return@scheduleAtFixedRate
-//                    }
-                    var audioData = ShortArray(bufferSize/2)
-                    for (i in (0 until bufferSize/2)){
-                        audioData[i] = buffer.getShort(i*2)
+                    if (isStopped){
+                        return@scheduleAtFixedRate
                     }
-                    //tensorAudio.load(audioRecord)
-                    //tensorAudio.getTensorBuffer().loadBuffer(buffer)
-                    tensorAudio.load(audioData)
+//                    var audioData = ShortArray(bufferSize/2)
+//                    for (i in (0 until bufferSize/2)){
+//                        audioData[i] = buffer.getShort(i*2)
+//                    }
+                    tensorAudio.load(audioRecord)
+
+                    //tensorAudio.load(audioData)
 
                     val output = audioClassifier.classify(tensorAudio)
                     val filteredModelOutput = output[0].categories.filter {
@@ -194,9 +193,8 @@ class Operating : AppCompatActivity() {
                         .joinToString(separator = "\n") { "${it.label} -> ${(it.score*100).toInt()}% " }
 
                     for (label:String in danger) {
-                        if (output[0].categories[0].label == label) {
+                        if (output[0].categories[0].label == label && !isVibrating) {
                             alertUSER(label)
-
                         }
                     }
                  /*   if (output[0].categories[0].label == "Alarm clock") {
@@ -264,7 +262,7 @@ class Operating : AppCompatActivity() {
                     while(!isStopped){
                         //var buffer = ByteArray(1000)
                         //audioRecord.read(buffer, bufferSize, READ_NON_BLOCKING)
-                        //var buffer = tensorAudio.getTensorBuffer().getBuffer()
+                        var buffer = tensorAudio.tensorBuffer.intArray
 
                         //var bytes : ByteArray = ByteArray(buffer.remaining())
                         //var shorts : ShortArray = ShortArray(bytes.size/2)
@@ -287,7 +285,7 @@ class Operating : AppCompatActivity() {
 //                            }
 //                        }
                         //var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
-                        var amplitude = buffer.getShort(0)
+                        var amplitude = buffer[0]
                         if (amplitude<1000){
                             amplitude = 1000
                         }
