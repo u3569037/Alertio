@@ -64,7 +64,7 @@ class PastRecord : AppCompatActivity() {
         val list = arrayListOf<MutableMap<String, Any>>()
         for (i in recordList!!.indices) {
             val map: MutableMap<String, Any> = HashMap()
-            val splitData = recordList[i].split(",").toTypedArray()
+            val splitData = recordList[i].split("|").toTypedArray()
             map["Danger"] = splitData[0]
             map["Time"] = splitData[1]
             list.add(map)

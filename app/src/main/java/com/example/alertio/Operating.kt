@@ -48,7 +48,7 @@ class Operating : AppCompatActivity() {
     private var isVibrating = false
     private var audioRecordView: AudioRecordView? = null
     private var resultText: TextView? = null
-    //private var audioRecorder: MediaRecorder? = null
+    private var mediaRecorder: MediaRecorder? = null
     private lateinit var outputTextView:TextView
     private lateinit var graphicText: ImageView
 
@@ -82,8 +82,8 @@ class Operating : AppCompatActivity() {
         audioRecordView = findViewById(R.id.audioRecordView)
         resultText = findViewById(R.id.resultText)
         graphicText = findViewById(R.id.imageView9)
-        //audioRecorder = MediaRecorder()
-        val danger : List<String> = listOf("Speech","Shout","Yell","Vehicle horn, car horn, honking", "car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling")
+        //mediaRecorder = MediaRecorder()
+        val danger : List<String> = listOf("Speech","Shout","Yell","Vehicle horn, car horn, honking", "Car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling")
 
 
 
@@ -187,10 +187,10 @@ class Operating : AppCompatActivity() {
 
                     val output = audioClassifier.classify(tensorAudio)
                     val filteredModelOutput = output[0].categories.filter {
-                        it.score > 0.3f
+                        it.score > 0.8f
                     }
                     val outputStr = filteredModelOutput.sortedBy { -it.score }
-                        .joinToString(separator = "\n") { "${it.label} -> ${(it.score*100).toInt()}% " }
+                        .joinToString(separator = "\n") { "${it.label} : ${(it.score*100).toInt()}% " }
 
                     if (!isVibrating){
                         runOnUiThread {
@@ -198,11 +198,15 @@ class Operating : AppCompatActivity() {
                         }
                     }
 
-                    for (label:String in danger) {
-                        if (output[0].categories[0].label == label && !isVibrating) {
-                            alertUSER(label)
+                    if (filteredModelOutput.sortedBy { -it.score }.isNotEmpty()){
+                        for (label:String in danger) {
+                            if (filteredModelOutput.sortedBy { -it.score }[0].label == label && !isVibrating) {
+                                alertUSER(label)
+                                break
+                            }
                         }
                     }
+
                  /*   if (output[0].categories[0].label == "Alarm clock") {
                         alertUSER("Alarm clock")
 
@@ -243,12 +247,12 @@ class Operating : AppCompatActivity() {
 
 //                val date = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Date())
 //                val filename = "audio_record_$date"
-//                audioRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
-//                audioRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-//                audioRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-//                audioRecorder!!.setOutputFile("${externalCacheDir?.absolutePath}/$filename.mp3")
+//                mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
+//                mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+//                mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+//                mediaRecorder!!.setOutputFile("${externalCacheDir?.absolutePath}/$filename.mp3")
 //                try{
-//                    audioRecorder!!.prepare()
+//                    mediaRecorder!!.prepare()
 //                } catch(e:IOException){
 //                    Toast.makeText(
 //                        this,
@@ -256,15 +260,16 @@ class Operating : AppCompatActivity() {
 //                        Toast.LENGTH_LONG
 //                    ).show()
 //                }
-
-                //audioRecorder!!.start()
+//
+//                mediaRecorder!!.start()
 
                 //visualize audio
                 Thread {
                     while(!isStopped){
-                        //var buffer = ByteArray(1000)
-                        //audioRecord.read(buffer, bufferSize, READ_NON_BLOCKING)
-                        var buffer = tensorAudio.tensorBuffer.buffer.duplicate()
+                        //var buffer = ByteArray(10)
+                        var buffer = ByteBuffer.allocateDirect(10)
+                        audioRecord.read(buffer, 10, READ_NON_BLOCKING)
+                        //var readBuffer = tensorAudio.tensorBuffer.buffer.duplicate()
 
                         //var bytes : ByteArray = ByteArray(buffer.remaining())
                         //var shorts : ShortArray = ShortArray(bytes.size/2)
@@ -280,14 +285,26 @@ class Operating : AppCompatActivity() {
 //                            }
 //                        }
 
-//                        var amplitude:Short = 0
-//                        for (i in (0 until bufferSize/2)){
-//                            if (buffer.getShort(i*2) > amplitude){
-//                                amplitude = buffer.getShort(i*2)
-//                            }
-//                        }
+                        var amplitude = 0
+                        for (i in (1..5)){
+                            amplitude += buffer.getShort(i)
+                        }
+                        amplitude /= 2
+                        //println(buffer.toString())
+                        println(amplitude)
+                        println(buffer.getShort(1))
+                        println(buffer.getShort(2))
+                        println(buffer.getShort(3))
+                        println(buffer.getShort(4))
+                        println(buffer.getShort(5))
+                        println(buffer.getShort(6))
+                        println(buffer.getShort(7))
+                        println(buffer.getShort(8))
+                        println("\n")
+                        //println(readBuffer.remaining())
+
                         //var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
-                        var amplitude = buffer.getShort(0).toInt()
+                        //var amplitude = readBuffer.getShort(abs(readBuffer.position()-2))
                         if (amplitude<1000){
                             amplitude = 1000
                         }
@@ -298,7 +315,7 @@ class Operating : AppCompatActivity() {
                         //var amplitude = Math.max(abs(buffer.max().toInt()),abs(buffer.min().toInt()))
                         audioRecordView!!.post { audioRecordView!!.update( amplitude.toInt() )}
                         //resultText!!.post { resultText!!.text = "Current amplitude: $amplitude" }
-                        Thread.sleep(30)
+                        Thread.sleep(50)
                     }
                 }.start()
 
@@ -310,7 +327,8 @@ class Operating : AppCompatActivity() {
                 toggle = true
                 isStopped = true
                 audioRecord.stop()
-                //audioRecorder!!.reset()
+                tensorAudio.tensorBuffer.buffer.clear()
+                //mediaRecorder!!.reset()
             }
         }
     }
@@ -382,11 +400,9 @@ class Operating : AppCompatActivity() {
 
             Thread {
                 val card: View = findViewById<CardView>(R.id.view)
-                if (danger == "Speech") {
-                    runOnUiThread {
-                        card.setBackgroundColor(Color.RED)
-                        graphicText.setImageResource(R.drawable.alarm_clock)
-                    }
+                runOnUiThread {
+                    card.setBackgroundColor(Color.RED)
+                    graphicText.setImageResource(R.drawable.alarm_clock)
                 }
                 Thread.sleep(3000)
                 runOnUiThread {
@@ -428,7 +444,7 @@ class Operating : AppCompatActivity() {
         val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
 
 
-        val data = "$danger,$timeStamp\n"
+        val data = "$danger | $timeStamp\n"
 
         try {
             val fOut: FileOutputStream = openFileOutput(file, MODE_APPEND)
