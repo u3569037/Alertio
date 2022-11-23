@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -74,6 +75,7 @@ class Operating : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_operating)
         window.statusBarColor = 0   //set status bar color to white
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         btnBack = findViewById<ImageButton>(R.id.backBtn)
         btnStart = findViewById<ImageButton>(R.id.startbtn)
@@ -159,18 +161,31 @@ class Operating : AppCompatActivity() {
                 audioRecord = audioClassifier.createAudioRecord()
                 audioRecord.startRecording()
 
-                val bufferSize = AudioRecord.getMinBufferSize(44100, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
+                //val bufferSize = AudioRecord.getMinBufferSize(44100, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
+                val bufferSize = 62400
                 var buffer : ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
                 //var buffer = ShortArray(bufferSize)
-            /*    Thread {
-                while (!isStopped){
-                    audioRecord.read(buffer, 0, bufferSize*2)
-                }
-                }.start()*/
+
+                Thread {
+                    while (!isStopped){
+                        audioRecord.positionNotificationPeriod = bufferSize/2
+                        audioRecord.read(buffer,  bufferSize, READ_NON_BLOCKING)
+                    }
+                    return@Thread
+                }.start()
 
                 Timer().scheduleAtFixedRate( 1, 500){
-                    tensorAudio.load(audioRecord)
-                    //tensorAudio.load(buffer)
+//                    if (isStopped){
+//                        return@scheduleAtFixedRate
+//                    }
+                    var audioData = ShortArray(bufferSize/2)
+                    for (i in (0 until bufferSize/2)){
+                        audioData[i] = buffer.getShort(i*2)
+                    }
+                    //tensorAudio.load(audioRecord)
+                    //tensorAudio.getTensorBuffer().loadBuffer(buffer)
+                    tensorAudio.load(audioData)
+
                     val output = audioClassifier.classify(tensorAudio)
                     val filteredModelOutput = output[0].categories.filter {
                         it.score > 0.3f
@@ -249,7 +264,7 @@ class Operating : AppCompatActivity() {
                     while(!isStopped){
                         //var buffer = ByteArray(1000)
                         //audioRecord.read(buffer, bufferSize, READ_NON_BLOCKING)
-                        var buffer = tensorAudio.getTensorBuffer().getBuffer()
+                        //var buffer = tensorAudio.getTensorBuffer().getBuffer()
 
                         //var bytes : ByteArray = ByteArray(buffer.remaining())
                         //var shorts : ShortArray = ShortArray(bytes.size/2)
@@ -264,7 +279,15 @@ class Operating : AppCompatActivity() {
 //                                amplitude = abs(buffer.get(i) + buffer.get(i+1)*128)/2
 //                            }
 //                        }
-                        var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
+
+//                        var amplitude:Short = 0
+//                        for (i in (0 until bufferSize/2)){
+//                            if (buffer.getShort(i*2) > amplitude){
+//                                amplitude = buffer.getShort(i*2)
+//                            }
+//                        }
+                        //var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
+                        var amplitude = buffer.getShort(0)
                         if (amplitude<1000){
                             amplitude = 1000
                         }
@@ -288,14 +311,8 @@ class Operating : AppCompatActivity() {
                 isStopped = true
                 audioRecord.stop()
                 //audioRecorder!!.reset()
-
             }
         }
-
-
-
-
-        //alertUSER("Bicycle ring")
     }
 
 
@@ -352,13 +369,13 @@ class Operating : AppCompatActivity() {
             }
 
             //send notification
-            val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
-            var builder = NotificationCompat.Builder(this, "i.apps.notifications")
-                .setSmallIcon(R.drawable.appicon)
-                .setContentTitle("Potential danger detected")
-                .setContentText("$danger detected at $timeStamp ")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            builder.run {  }
+//            val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
+//            var builder = NotificationCompat.Builder(this, "i.apps.notifications")
+//                .setSmallIcon(R.drawable.appicon)
+//                .setContentTitle("Potential danger detected")
+//                .setContentText("$danger detected at $timeStamp ")
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//            builder.run {  }
 
 
             //change card color
