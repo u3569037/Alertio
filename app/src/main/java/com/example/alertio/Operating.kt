@@ -192,6 +192,12 @@ class Operating : AppCompatActivity() {
                     val outputStr = filteredModelOutput.sortedBy { -it.score }
                         .joinToString(separator = "\n") { "${it.label} -> ${(it.score*100).toInt()}% " }
 
+                    if (!isVibrating){
+                        runOnUiThread {
+                            resultText!!.text = outputStr
+                        }
+                    }
+
                     for (label:String in danger) {
                         if (output[0].categories[0].label == label && !isVibrating) {
                             alertUSER(label)
@@ -202,10 +208,6 @@ class Operating : AppCompatActivity() {
 
                     }*/
 
-
-                    runOnUiThread {
-                        resultText!!.text = outputStr
-                    }
                 }
 /*
                 timerTask = object: TimerTask() {
@@ -262,7 +264,7 @@ class Operating : AppCompatActivity() {
                     while(!isStopped){
                         //var buffer = ByteArray(1000)
                         //audioRecord.read(buffer, bufferSize, READ_NON_BLOCKING)
-                        var buffer = tensorAudio.tensorBuffer.intArray
+                        var buffer = tensorAudio.tensorBuffer.buffer.duplicate()
 
                         //var bytes : ByteArray = ByteArray(buffer.remaining())
                         //var shorts : ShortArray = ShortArray(bytes.size/2)
@@ -285,7 +287,7 @@ class Operating : AppCompatActivity() {
 //                            }
 //                        }
                         //var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
-                        var amplitude = buffer[0]
+                        var amplitude = buffer.getShort(0).toInt()
                         if (amplitude<1000){
                             amplitude = 1000
                         }
