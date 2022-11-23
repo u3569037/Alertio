@@ -62,7 +62,6 @@ class Operating : AppCompatActivity() {
 
 
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         //load model from assets folder
         try {
@@ -160,7 +159,7 @@ class Operating : AppCompatActivity() {
                 audioRecord = audioClassifier.createAudioRecord()
                 audioRecord.startRecording()
 
-                val bufferSize = AudioRecord.getMinBufferSize(44100, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
+                val bufferSize = AudioRecord.getMinBufferSize(16000, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
 //                val bufferSize = 62400
 //                var buffer : ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
                 //var buffer = ShortArray(bufferSize)
@@ -206,12 +205,6 @@ class Operating : AppCompatActivity() {
                             }
                         }
                     }
-
-                 /*   if (output[0].categories[0].label == "Alarm clock") {
-                        alertUSER("Alarm clock")
-
-                    }*/
-
                 }
 /*
                 timerTask = object: TimerTask() {
@@ -268,30 +261,19 @@ class Operating : AppCompatActivity() {
                     while(!isStopped){
                         //var buffer = ByteArray(10)
                         var buffer = ByteBuffer.allocateDirect(10)
-                        audioRecord.read(buffer, 10, READ_NON_BLOCKING)
+                        audioRecord.read(buffer, 10)
                         //var readBuffer = tensorAudio.tensorBuffer.buffer.duplicate()
 
-                        //var bytes : ByteArray = ByteArray(buffer.remaining())
-                        //var shorts : ShortArray = ShortArray(bytes.size/2)
-                        //ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shorts)
-//                        var tempBuffer:ByteBuffer = ByteBuffer.allocateDirect(2)
-//                        tempBuffer.order(ByteOrder.LITTLE_ENDIAN)
-//                        tempBuffer.put(buffer.get(0))
-//                        tempBuffer.put(buffer.get(1))
-//                        var amplitude = 0
-//                        for (i in (0 until 50)){
-//                            if (abs(buffer.get(i) + buffer.get(i+1)*128)/2 > amplitude){
-//                                amplitude = abs(buffer.get(i) + buffer.get(i+1)*128)/2
-//                            }
+                        var amplitude = abs(buffer.getShort(1).toDouble())
+//                        for (i in (1..24)){
+//                            amplitude += buffer.getShort(i)
 //                        }
-
-                        var amplitude = 0
-                        for (i in (1..5)){
-                            amplitude += buffer.getShort(i)
-                        }
-                        amplitude /= 2
+//                        amplitude /= 12
                         //println(buffer.toString())
+                        println(audioRecord.audioFormat)
+                        println(audioRecord.format)
                         println(amplitude)
+                        println(buffer.getShort(0))
                         println(buffer.getShort(1))
                         println(buffer.getShort(2))
                         println(buffer.getShort(3))
@@ -300,22 +282,17 @@ class Operating : AppCompatActivity() {
                         println(buffer.getShort(6))
                         println(buffer.getShort(7))
                         println(buffer.getShort(8))
+                        println(buffer.remaining())
                         println("\n")
-                        //println(readBuffer.remaining())
 
                         //var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
-                        //var amplitude = readBuffer.getShort(abs(readBuffer.position()-2))
-                        if (amplitude<1000){
-                            amplitude = 1000
+                        if (amplitude<500.0){
+                            amplitude = 500.0
                         }
-                        //val amplitude = abs(tempBuffer.getShort(0).toInt())
-                        //var amplitude = buffer.max()/2
-                        //var amplitude = audioRecorder!!.getMaxAmplitude()
+                        //var amplitude = mediaRecorder!!.getMaxAmplitude()
 
-                        //var amplitude = Math.max(abs(buffer.max().toInt()),abs(buffer.min().toInt()))
                         audioRecordView!!.post { audioRecordView!!.update( amplitude.toInt() )}
-                        //resultText!!.post { resultText!!.text = "Current amplitude: $amplitude" }
-                        Thread.sleep(50)
+                        Thread.sleep(30)
                     }
                 }.start()
 
