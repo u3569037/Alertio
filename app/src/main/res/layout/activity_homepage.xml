@@ -81,7 +81,7 @@
         android:layout_width="155sp"
         android:layout_height="200sp"
         android:layout_marginStart="28sp"
-        android:layout_marginTop="44sp"
+        android:layout_marginTop="45sp"
         android:layout_marginBottom="40sp"
         android:backgroundTint="#FF9800"
         android:fontFamily="sans-serif-black"
