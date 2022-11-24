@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         Timer().schedule(2000){
             startActivity(intent)
             finish()
+            return@schedule
         }
     }
 }
