@@ -82,7 +82,7 @@ class Operating : AppCompatActivity() {
         resultText = findViewById(R.id.resultText)
         graphicText = findViewById(R.id.imageView9)
         //mediaRecorder = MediaRecorder()
-        val danger : List<String> = listOf("Speech","Shout","Yell","Vehicle horn, car horn, honking", "Car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling")
+        val danger : List<String> = listOf("Speech","Shout","Yell","Vehicle horn, car horn, honking", "Car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling", "Bicycle bell")
 
 
 
@@ -188,12 +188,18 @@ class Operating : AppCompatActivity() {
                     val filteredModelOutput = output[0].categories.filter {
                         it.score > 0.8f
                     }
+
+
+
                     val outputStr = filteredModelOutput.sortedBy { -it.score }
                         .joinToString(separator = "\n") { "${it.label} : ${(it.score*100).toInt()}% " }
 
+
+                    val outputStr2 = outputStr.toString().replace("Vehicle horn, car horn, honking","Vehicle horn")
+
                     if (!isVibrating){
                         runOnUiThread {
-                            resultText!!.text = outputStr
+                            resultText!!.text = outputStr2
                         }
                     }
 
