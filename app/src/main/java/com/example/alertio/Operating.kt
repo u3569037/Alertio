@@ -379,14 +379,82 @@ class Operating : AppCompatActivity() {
 //            builder.run {  }
 
 
-            //change card color
 
+            // string formatting
+            var head = danger[0].lowercase()
+            var tail = danger.substring(1)
+            tail = tail.replace(" ","_")
+            tail = tail.replace(",", "")
+            val result = head + tail
+
+            //change card color
             Thread {
                 val card: View = findViewById<CardView>(R.id.view)
-                runOnUiThread {
-                    card.setBackgroundColor(Color.RED)
-                    graphicText.setImageResource(R.drawable.alarm_clock)
+
+                if (danger == "Shout" || danger == "Yell") {
+                    runOnUiThread {
+                        card.setBackgroundColor(android.graphics.Color.RED)
+                        graphicText.setImageResource(com.example.alertio.R.drawable.shout)
+                    }
                 }
+                else if  (danger == "Vehicle horn, car horn, honking" || danger == "Train horn") {
+                    runOnUiThread {
+                        card.setBackgroundColor(android.graphics.Color.RED)
+                        graphicText.setImageResource(com.example.alertio.R.drawable.vehicle_horn_car_horn_honking)
+                    }
+                }
+
+                else if (danger == "Car alarm" || danger == "Buzzer") {
+                    runOnUiThread {
+                        card.setBackgroundColor(android.graphics.Color.RED)
+                        graphicText.setImageResource(com.example.alertio.R.drawable.car_alarm)
+                    }
+                }
+
+                else if (danger == "Alarm clock") {
+                    runOnUiThread {
+                        card.setBackgroundColor(android.graphics.Color.RED)
+                        graphicText.setImageResource(com.example.alertio.R.drawable.alarm_clock)
+                    }
+                }
+
+                else if (danger == "Smoke detector, smoke alarm") {
+                    runOnUiThread {
+                        card.setBackgroundColor(android.graphics.Color.RED)
+                        graphicText.setImageResource(com.example.alertio.R.drawable.smoke_detector_smoke_alarm)
+                    }
+                }
+
+                else if (danger == "Fire alarm" || danger == "Explosion") {
+                    runOnUiThread {
+                        card.setBackgroundColor(android.graphics.Color.RED)
+                        graphicText.setImageResource(com.example.alertio.R.drawable.fire_alarm)
+                    }
+                }
+
+                else if (danger == "Gunshot, gunfire" || danger == "Machine gun") {
+                    runOnUiThread {
+                        card.setBackgroundColor(android.graphics.Color.RED)
+                        graphicText.setImageResource(com.example.alertio.R.drawable.gunshot_gunfire)
+                    }
+                }
+
+                else if (danger == "Boiling") {
+                    runOnUiThread {
+                        card.setBackgroundColor(android.graphics.Color.RED)
+                        graphicText.setImageResource(com.example.alertio.R.drawable.boiling)
+                    }
+                }
+
+                else if (danger == "Bicycle bell") {
+                    runOnUiThread {
+                        card.setBackgroundColor(android.graphics.Color.RED)
+                        graphicText.setImageResource(com.example.alertio.R.drawable.bicycle_bell)
+                    }
+                }
+
+
+
                 Thread.sleep(3000)
                 runOnUiThread {
                     card.setBackgroundColor(Color.TRANSPARENT)
@@ -440,3 +508,7 @@ class Operating : AppCompatActivity() {
     }
 
 }
+
+
+
+
