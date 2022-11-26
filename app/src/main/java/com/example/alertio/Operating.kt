@@ -81,7 +81,7 @@ class Operating : AppCompatActivity() {
         audioRecordView = findViewById(R.id.audioRecordView)
         resultText = findViewById(R.id.resultText)
         graphicText = findViewById(R.id.imageView9)
-        //mediaRecorder = MediaRecorder()
+        mediaRecorder = MediaRecorder()
         val danger : List<String> = listOf("Shout","Yell","Vehicle horn, car horn, honking", "Car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling", "Bicycle bell")
 
 
@@ -159,30 +159,13 @@ class Operating : AppCompatActivity() {
                 audioRecord = audioClassifier.createAudioRecord()
                 audioRecord.startRecording()
 
-                val bufferSize = AudioRecord.getMinBufferSize(16000, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
-//                val bufferSize = 62400
-//                var buffer : ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
-                //var buffer = ShortArray(bufferSize)
-
-//                Thread {
-//                    while (!isStopped){
-//                        audioRecord.positionNotificationPeriod = bufferSize/2
-//                        audioRecord.read(buffer,  bufferSize, READ_NON_BLOCKING)
-//                    }
-//                    return@Thread
-//                }.start()
 
                 Timer().scheduleAtFixedRate( 1, 500){
                     if (isStopped){
                         return@scheduleAtFixedRate
                     }
-//                    var audioData = ShortArray(bufferSize/2)
-//                    for (i in (0 until bufferSize/2)){
-//                        audioData[i] = buffer.getShort(i*2)
-//                    }
                     tensorAudio.load(audioRecord)
 
-                    //tensorAudio.load(audioData)
 
                     val output = audioClassifier.classify(tensorAudio)
                     val filteredModelOutput = output[0].categories.filter {
@@ -212,90 +195,30 @@ class Operating : AppCompatActivity() {
                         }
                     }
                 }
-/*
-                timerTask = object: TimerTask() {
-                    override fun run() {
-                        var output = audioClassifier.classify(tensorAudio)
-
-                        //filter out classifications with low probability
-                        var finalOutput = ArrayList<org.tensorflow.lite.support.label.Category>()
-                        for (classifications in output) {
-                            for (category in classifications.categories){
-                                if (category.score > 0.3f) {
-                                    finalOutput.add(category)
-                                }
-                            }
-                        }
-                        //create a multiline string with the filtered result
-                        var outputStr = StringBuilder()
-                        for (category in finalOutput) {
-                            outputStr.append(category.label).append((": ")).append(category.score).append("\n")
-                        }
-
-                        Thread {
-                            runOnUiThread {
-                                outputTextView?.setText(outputStr.toString())
-                            }
-                        }
 
 
-                    }*/
+                val date = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Date())
+                val filename = "audio_record_$date"
+                mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
+                mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                mediaRecorder!!.setOutputFile("${externalCacheDir?.absolutePath}/$filename.mp3")
+                try{
+                    mediaRecorder!!.prepare()
+                } catch(e:IOException){
+                    Toast.makeText(
+                        this,
+                        e.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
 
-
-                //audioRecordView!!.recreate()   // For clearing all drawn pattern
-
-//                val date = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Date())
-//                val filename = "audio_record_$date"
-//                mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
-//                mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-//                mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-//                mediaRecorder!!.setOutputFile("${externalCacheDir?.absolutePath}/$filename.mp3")
-//                try{
-//                    mediaRecorder!!.prepare()
-//                } catch(e:IOException){
-//                    Toast.makeText(
-//                        this,
-//                        e.toString(),
-//                        Toast.LENGTH_LONG
-//                    ).show()
-//                }
-//
-//                mediaRecorder!!.start()
+                mediaRecorder!!.start()
 
                 //visualize audio
                 Thread {
                     while(!isStopped){
-                        //var buffer = ByteArray(10)
-                        var buffer = ByteBuffer.allocateDirect(10)
-                        audioRecord.read(buffer, 10)
-                        //var readBuffer = tensorAudio.tensorBuffer.buffer.duplicate()
-
-                        //var amplitude = abs(buffer.getShort(1).toDouble())
-//                        for (i in (1..24)){
-//                            amplitude += buffer.getShort(i)
-//                        }
-//                        amplitude /= 12
-                        //println(buffer.toString())
-                        println(audioRecord.audioFormat)
-                        println(audioRecord.format)
-                        println(buffer.getShort(0))
-                        println(buffer.getShort(1))
-                        println(buffer.getShort(2))
-                        println(buffer.getShort(3))
-                        println(buffer.getShort(4))
-                        println(buffer.getShort(5))
-                        println(buffer.getShort(6))
-                        println(buffer.getShort(7))
-                        println(buffer.getShort(8))
-                        println(buffer.remaining())
-                        println("\n")
-
-                        var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
-                        if (amplitude<500){
-                            amplitude = 500
-                        }
-                        //var amplitude = mediaRecorder!!.getMaxAmplitude()
-
+                        var amplitude = mediaRecorder!!.getMaxAmplitude()
                         audioRecordView!!.post { audioRecordView!!.update( amplitude.toInt() )}
                         Thread.sleep(30)
                     }
@@ -310,7 +233,7 @@ class Operating : AppCompatActivity() {
                 isStopped = true
                 audioRecord.stop()
                 tensorAudio.tensorBuffer.buffer.clear()
-                //mediaRecorder!!.reset()
+                mediaRecorder!!.reset()
             }
         }
     }
