@@ -82,7 +82,7 @@ class Operating : AppCompatActivity() {
         resultText = findViewById(R.id.resultText)
         graphicText = findViewById(R.id.imageView9)
         //mediaRecorder = MediaRecorder()
-        val danger : List<String> = listOf("Speech","Shout","Yell","Vehicle horn, car horn, honking", "Car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling", "Bicycle bell")
+        val danger : List<String> = listOf("Shout","Yell","Vehicle horn, car horn, honking", "Car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling", "Bicycle bell")
 
 
 
@@ -270,7 +270,7 @@ class Operating : AppCompatActivity() {
                         audioRecord.read(buffer, 10)
                         //var readBuffer = tensorAudio.tensorBuffer.buffer.duplicate()
 
-                        var amplitude = abs(buffer.getShort(1).toDouble())
+                        //var amplitude = abs(buffer.getShort(1).toDouble())
 //                        for (i in (1..24)){
 //                            amplitude += buffer.getShort(i)
 //                        }
@@ -278,7 +278,6 @@ class Operating : AppCompatActivity() {
                         //println(buffer.toString())
                         println(audioRecord.audioFormat)
                         println(audioRecord.format)
-                        println(amplitude)
                         println(buffer.getShort(0))
                         println(buffer.getShort(1))
                         println(buffer.getShort(2))
@@ -291,9 +290,9 @@ class Operating : AppCompatActivity() {
                         println(buffer.remaining())
                         println("\n")
 
-                        //var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
-                        if (amplitude<500.0){
-                            amplitude = 500.0
+                        var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
+                        if (amplitude<500){
+                            amplitude = 500
                         }
                         //var amplitude = mediaRecorder!!.getMaxAmplitude()
 
