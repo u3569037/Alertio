@@ -180,7 +180,16 @@ class Operating : AppCompatActivity() {
 //                    for (i in (0 until bufferSize/2)){
 //                        audioData[i] = buffer.getShort(i*2)
 //                    }
-                    tensorAudio.load(audioRecord)
+                    try{
+                        tensorAudio.load(audioRecord)
+                    }  catch(e:Exception){
+                        Toast.makeText(
+                            this@Operating,
+                            e.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
 
                     //tensorAudio.load(audioData)
 
@@ -267,7 +276,16 @@ class Operating : AppCompatActivity() {
                     while(!isStopped){
                         //var buffer = ByteArray(10)
                         var buffer = ByteBuffer.allocateDirect(10)
-                        audioRecord.read(buffer, 10)
+                        try{
+                            audioRecord.read(buffer, 10)
+                        }  catch(e:Exception){
+                            Toast.makeText(
+                                this,
+                                e.toString(),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
                         //var readBuffer = tensorAudio.tensorBuffer.buffer.duplicate()
 
                         //var amplitude = abs(buffer.getShort(1).toDouble())
@@ -278,19 +296,26 @@ class Operating : AppCompatActivity() {
                         //println(buffer.toString())
                         println(audioRecord.audioFormat)
                         println(audioRecord.format)
-                        println(buffer.getShort(0))
-                        println(buffer.getShort(1))
-                        println(buffer.getShort(2))
-                        println(buffer.getShort(3))
-                        println(buffer.getShort(4))
-                        println(buffer.getShort(5))
-                        println(buffer.getShort(6))
-                        println(buffer.getShort(7))
-                        println(buffer.getShort(8))
-                        println(buffer.remaining())
+                        println("\n")
+                        println(buffer.get(0))
+                        println(buffer.get(1))
+                        println(buffer.get(2))
+                        println(buffer.get(3))
+                        println(buffer.get(4))
+                        println(buffer.get(5))
+                        println(buffer.get(6))
+                        println("\n")
+                        println(buffer.getFloat(0))
+                        println(buffer.getFloat(1))
+                        println(buffer.getFloat(2))
+                        println(buffer.getFloat(3))
+                        println(buffer.getFloat(4))
+                        println(buffer.getFloat(5))
+                        println(buffer.getFloat(6))
                         println("\n")
 
-                        var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
+                        //var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
+                        var amplitude = (buffer.getFloat(3)*500000).toInt()
                         if (amplitude<500){
                             amplitude = 500
                         }
@@ -309,7 +334,7 @@ class Operating : AppCompatActivity() {
                 toggle = true
                 isStopped = true
                 audioRecord.stop()
-                tensorAudio.tensorBuffer.buffer.clear()
+                //tensorAudio.tensorBuffer.buffer.clear()
                 //mediaRecorder!!.reset()
             }
         }
