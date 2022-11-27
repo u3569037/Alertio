@@ -36,6 +36,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.scheduleAtFixedRate
 import kotlin.math.abs
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
+import androidx.core.app.NotificationManagerCompat
 
 
 class Operating : AppCompatActivity() {
@@ -60,7 +65,9 @@ class Operating : AppCompatActivity() {
     private lateinit var audioClassifier: AudioClassifier
     private lateinit var tensorAudio: TensorAudio
 
-
+    val CHANNEL_ID = "channelID"
+    val CHANNEL_NAME = "channelName"
+    val NOTIF_ID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //load model from assets folder
@@ -114,6 +121,14 @@ class Operating : AppCompatActivity() {
             requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
         }
 
+        createNotifChannel()
+
+
+
+
+    /*    binding.btnShowNotif.setOnClickListener {
+            notifManger.notify(NOTIF_ID,notif)
+        }*/
 
 
         btnBack!!.setOnClickListener {
@@ -380,6 +395,35 @@ class Operating : AppCompatActivity() {
         }
     }
 
+
+    private fun createNotifChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT).apply {
+                lightColor = Color.BLUE
+                enableLights(true)
+            }
+            val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
+        }
+    }
+    /*
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }*/
+
     //call this when detect danger
     private fun alertUSER(danger:String){
         if (!isVibrating){
@@ -393,16 +437,30 @@ class Operating : AppCompatActivity() {
                 vibrator.vibrate(3000)
             }
 
-            //send notification
-//            val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
-//            var builder = NotificationCompat.Builder(this, "i.apps.notifications")
-//                .setSmallIcon(R.drawable.appicon)
-//                .setContentTitle("Potential danger detected")
-//                .setContentText("$danger detected at $timeStamp ")
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//            builder.run {  }
+
+            // send notification
+
+            val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
+            val intent=Intent(this,MainActivity::class.java)
+            val pendingIntent = TaskStackBuilder.create(this).run {
+                addNextIntentWithParentStack(intent)
+                getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+            }
 
 
+
+
+            val notifManger = NotificationManagerCompat.from(this)
+
+            val notif = NotificationCompat.Builder(this,CHANNEL_ID)
+                .setContentTitle("Potential danger detected")
+                .setContentText("$danger detected at $timeStamp ")
+                .setSmallIcon(R.drawable.notifyicon)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent)
+                .build()
+
+            notifManger.notify(NOTIF_ID,notif)
 
             // string formatting
             var head = danger[0].lowercase()
