@@ -21,8 +21,8 @@
     <com.visualizer.amplitude.AudioRecordView
         android:id="@+id/audioRecordView"
         android:layout_width="0dp"
-        android:layout_height="200sp"
-        android:layout_marginTop="4dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="100dp"
         app:chunkAlignTo="center"
         app:chunkColor="@android:color/holo_red_light"
         app:chunkMaxHeight="180sp"
@@ -35,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+        app:layout_constraintTop_toTopOf="@+id/imageView8" />
 
     <ImageButton
         android:id="@+id/backBtn"
@@ -81,9 +81,9 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/warningBox"
-        android:layout_width="350sp"
-        android:layout_height="350sp"
-        android:layout_marginBottom="60dp"
+        android:layout_width="325dp"
+        android:layout_height="325dp"
+        android:layout_marginBottom="45dp"
         android:backgroundTint="#E8E7E7"
         android:elevation="20sp"
         app:cardCornerRadius="20sp"

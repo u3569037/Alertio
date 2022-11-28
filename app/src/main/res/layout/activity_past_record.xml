@@ -35,7 +35,7 @@
     <ListView
         android:id="@+id/list_view"
         android:layout_width="0dp"
-        android:layout_height="600sp"
+        android:layout_height="550dp"
         android:divider="@null"
         android:dividerHeight="5.0sp"
         android:fadeScrollbars="true"
