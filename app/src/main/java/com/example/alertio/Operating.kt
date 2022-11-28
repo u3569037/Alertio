@@ -70,6 +70,7 @@ class Operating : AppCompatActivity() {
     val NOTIF_ID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        createNotifChannel()
         //load model from assets folder
         try {
             audioClassifier = AudioClassifier.createFromFile(this, modelPath)
@@ -79,8 +80,9 @@ class Operating : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_operating)
+        createNotifChannel()
         window.statusBarColor = 0   //set status bar color to white
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         btnBack = findViewById<ImageButton>(R.id.backBtn)
         btnStart = findViewById<ImageButton>(R.id.startbtn)
@@ -196,8 +198,12 @@ class Operating : AppCompatActivity() {
                     if (filteredModelOutput.sortedBy { -it.score }.isNotEmpty()){
                         for (label:String in danger) {
                             if (filteredModelOutput.sortedBy { -it.score }[0].label == label && !isVibrating) {
-                                alertUSER(label)
-                                break
+                                    alertUSER(label)
+                                    break
+
+
+
+
                             }
                         }
                     }
@@ -309,29 +315,8 @@ class Operating : AppCompatActivity() {
                 vibrator.vibrate(3000)
             }
 
-            // send notification
-
-            val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
-            val intent=Intent(this,MainActivity::class.java)
-            val pendingIntent = TaskStackBuilder.create(this).run {
-                addNextIntentWithParentStack(intent)
-                getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
-            }
 
 
-
-
-            val notifManger = NotificationManagerCompat.from(this)
-
-            val notif = NotificationCompat.Builder(this,CHANNEL_ID)
-                .setContentTitle("Potential danger detected")
-                .setContentText("$danger detected at $timeStamp ")
-                .setSmallIcon(R.drawable.notifyicon)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent)
-                .build()
-
-            notifManger.notify(NOTIF_ID,notif)
 
 
 
@@ -419,6 +404,31 @@ class Operating : AppCompatActivity() {
 
                 isVibrating = false
             }.start()
+
+            // send notification
+/*
+            val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
+            val intent=Intent(this,MainActivity::class.java)
+
+            val pendingIntent = TaskStackBuilder.create(this).run {
+                addNextIntentWithParentStack(intent)
+                getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+            }
+
+
+
+
+            val notifManger = NotificationManagerCompat.from(this)
+
+            val notif = NotificationCompat.Builder(this,CHANNEL_ID)
+                .setContentTitle("Potential danger detected")
+                .setContentText("$danger detected at $timeStamp ")
+                .setSmallIcon(R.drawable.notifyicon)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent)
+                .build()
+
+            notifManger.notify(NOTIF_ID,notif)*/
 
             //add the detected danger to record
             addRecord(danger)
