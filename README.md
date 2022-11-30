@@ -1,8 +1,16 @@
 # Alertio
+
+<img src="https://github.com/u3569037/Alertio/blob/db9cfcf44a301682c4c099f578a318185452d2d5/app/src/main/res/drawable/app_logo800.jpg" width="200" height="200"/>
+
 Alertio is a danger alert app for deaf people. It utilizes the state-of-the-art Machine learning model to detect potential danger sounds. The sounds that we aim to detect include car alarms, bicycle rings, fire alarms, etc. Once the potential danger sound is identified, our app will send an alert to the user through intense vibration of the device as well as turning the app background into eye-catching light red color.
 
+<br>
+
+<img src="https://github.com/u3569037/Alertio/blob/db9cfcf44a301682c4c099f578a318185452d2d5/app/src/main/res/drawable/userguide.png" height="800"/>
 
 <br>
+
+<b>HKU CS</b>
 
 <b>COMP3330 Group33</b>
 
