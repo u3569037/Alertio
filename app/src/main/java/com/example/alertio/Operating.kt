@@ -334,8 +334,9 @@ class Operating : AppCompatActivity() {
                             println(buffer.getFloat(6))
                             println("\n")
 
-                            //var amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
-                            amplitude = (buffer.getFloat(3)*500000).toInt()
+                            amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
+                            //amplitude = (buffer.getFloat(3)*500000).toInt()
+                            //amplitude = (buffer.getFloat(3)*500000+buffer.getFloat(7)*500000).toInt()
                             if (amplitude<500){
                                 amplitude = 500
                             }
