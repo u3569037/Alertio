@@ -60,4 +60,6 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0'
     implementation "org.tensorflow:tensorflow-lite:+"
 
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
 }
