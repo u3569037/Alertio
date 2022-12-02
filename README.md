@@ -1,13 +1,34 @@
 # Alertio
-Alertio is a deaf alerting app which utilize AI sound recognition technology.
 
-COMP3330 Group33 
+<img src="https://github.com/u3569037/Alertio/blob/db9cfcf44a301682c4c099f578a318185452d2d5/app/src/main/res/drawable/app_logo800.jpg" width="200" height="200"/>
 
-References:
+Alertio is a danger alert app for deaf people. It utilizes the state-of-the-art Machine learning model to detect potential danger sounds. The sounds that we aim to detect include car alarms, bicycle rings, fire alarms, etc. Once the potential danger sound is identified, our app will send an alert to the user through intense vibration of the device as well as turning the app background into eye-catching light red color.
 
-External libraries used:
+<br>
 
+<img src="https://github.com/u3569037/Alertio/blob/db9cfcf44a301682c4c099f578a318185452d2d5/app/src/main/res/drawable/userguide.png" height="800"/>
+
+<br>
+
+<b>HKU CS</b>
+
+<b>COMP3330 Group33</b>
+
+<b>Team information</b>
+
+Project leader: SIU Ka Sing, Benny, BEng(CompSc)
+
+Team member(s): CHOI Man Kin, Ricky, BEng(CompSc); WAN Hing Yin, Elmo, BEng(CompSc)
+
+https://innoacademy.engg.hku.hk/alertio/
+
+
+<br>
+
+<b>References</b>
+
+External libraries used: 
 https://github.com/Armen101/AudioRecordView
 
-All icons we used come from IconFinder
+All icons we used come from IconFinder:
 https://www.iconfinder.com/
