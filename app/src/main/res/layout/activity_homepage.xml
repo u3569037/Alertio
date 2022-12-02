@@ -14,7 +14,7 @@
         android:layout_marginEnd="4dp"
         android:contentDescription="app logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.842"
+        app:layout_constraintHorizontal_bias="0.84"
         app:layout_constraintStart_toEndOf="@+id/welcomemsg"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/app_logo800" />
@@ -76,66 +76,70 @@
 
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/recordbutton"
-        android:layout_width="155sp"
-        android:layout_height="200sp"
-        android:layout_marginStart="28sp"
-        android:layout_marginTop="45sp"
-        android:layout_marginBottom="40sp"
-        android:backgroundTint="#FF9800"
-        android:fontFamily="sans-serif-black"
-        android:text="\n\nPast record"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:cornerRadius="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/startbutton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-    <Button
-        android:id="@+id/guidebutton"
-        android:layout_width="155sp"
-        android:layout_height="200sp"
-        android:layout_marginTop="45sp"
-        android:layout_marginEnd="28sp"
-        android:layout_marginBottom="40sp"
-        android:backgroundTint="#FF9800"
-        android:fontFamily="sans-serif-black"
-        android:text="\n\nUser guide"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:cornerRadius="20sp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/startbutton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="70dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="20dp"
-        android:elevation="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/recordbutton"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="@+id/recordbutton"
-        app:layout_constraintTop_toTopOf="@+id/recordbutton"
-        app:srcCompat="@drawable/recordicon2" />
+        <Button
+            android:id="@+id/guidebutton"
+            android:layout_width="155sp"
+            android:layout_height="200sp"
+            android:layout_marginStart="36dp"
+            android:backgroundTint="#FF9800"
+            android:fontFamily="sans-serif-black"
+            android:text="\n\nUser guide"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:cornerRadius="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recordbutton"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="62dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="20dp"
-        android:elevation="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/guidebutton"
-        app:layout_constraintHorizontal_bias="0.483"
-        app:layout_constraintStart_toStartOf="@+id/guidebutton"
-        app:layout_constraintTop_toTopOf="@+id/guidebutton"
-        app:srcCompat="@drawable/helpicon2" />
+        <Button
+            android:id="@+id/recordbutton"
+            android:layout_width="155sp"
+            android:layout_height="200sp"
+            android:backgroundTint="#FF9800"
+            android:fontFamily="sans-serif-black"
+            android:text="\n\nPast record"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:cornerRadius="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="70dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="20dp"
+            android:elevation="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/recordbutton"
+            app:layout_constraintStart_toStartOf="@+id/recordbutton"
+            app:layout_constraintTop_toTopOf="@+id/recordbutton"
+            app:srcCompat="@drawable/recordicon2" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="62dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="20dp"
+            android:elevation="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidebutton"
+            app:layout_constraintTop_toTopOf="@+id/guidebutton"
+            app:srcCompat="@drawable/helpicon2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/startbutton"
