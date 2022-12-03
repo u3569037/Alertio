@@ -10,6 +10,15 @@ Alertio is a danger alert app for deaf people. It utilizes the state-of-the-art 
 
 <br>
 
+<b>Compatibility</b>
+
+Our app performs the best on phones with Android 12 or above. It is highly recommended to use our app with this compatibility suggestion.
+
+Android phones with Android versions lower than 12 can also run the app, but AI's stability might be frustrating. 
+
+<hr>
+<br>
+
 <b>HKU CS</b>
 
 <b>COMP3330 Group33</b>
