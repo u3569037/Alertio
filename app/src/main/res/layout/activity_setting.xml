@@ -80,8 +80,8 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="15sp"
                 android:background="#E3E1E1"
                 android:backgroundTint="#E3E1E1"
@@ -113,7 +113,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="15sp"
                 android:background="#E3E1E1"
                 android:backgroundTint="#E3E1E1"
