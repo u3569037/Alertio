@@ -22,7 +22,7 @@
         android:id="@+id/audioRecordView"
         android:layout_width="0dp"
         android:layout_height="200sp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="100dp"
         app:chunkAlignTo="center"
         app:chunkColor="@android:color/holo_red_light"
         app:chunkMaxHeight="180sp"
@@ -35,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/backBtn"
@@ -110,7 +110,7 @@
         android:id="@+id/resultText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12sp"
         android:elevation="30sp"
         android:text="@null"
         android:textColor="@color/black"
@@ -118,6 +118,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/audioRecordView" />
+        app:layout_constraintTop_toTopOf="@+id/warningBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
