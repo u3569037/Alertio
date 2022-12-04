@@ -16,6 +16,12 @@ Our app performs the best on phones with Android 12 or above. It is highly recom
 
 Android phones with Android versions lower than 12 can also run the app, but AI's stability might be frustrating. 
 
+<B>APK</b>
+
+Version: 1.0.0
+
+https://drive.google.com/file/d/1exZu6Be2HI2sVZNr_UkFZHvdBvP64Ml7/view?usp=share_link
+
 <hr>
 <br>
 
