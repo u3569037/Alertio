@@ -10,6 +10,28 @@ Alertio is a danger alert app for deaf people. It utilizes the state-of-the-art 
 
 <br>
 
+<b> Full list of danger detections supported </b>
+
+<ul>
+  <li>Shout</li>
+  <li>Yell</li>
+  <li>Vehicle horn, car horn, honking</li>
+  <li>Car alarm</li>
+  <li>Train horn</li>
+  <li>Alarm</li>
+  <li>Alarm clock</li>
+  <li>Buzzer</li>
+  <li>Smoke detector, smoke alarm</li>
+  <li>Fire alarm</li>
+  <li>Explosion</li>
+  <li>Gunshot, gunfire</li>
+  <li>Machine gun</li>
+  <li>Boiling</li>
+  <li>Bicycle bell</li>
+</ul>
+
+<br>
+
 <b>Compatibility</b>
 
 Our app performs the best on phones with Android 12 or above. It is highly recommended to use our app with this compatibility suggestion.
