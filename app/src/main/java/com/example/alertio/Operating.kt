@@ -89,7 +89,7 @@ class Operating : AppCompatActivity() {
         resultText = findViewById(R.id.resultText)
         graphicText = findViewById(R.id.imageView9)
         mediaRecorder = MediaRecorder()
-        val danger : List<String> = listOf("Shout","Yell","Vehicle horn, car horn, honking", "Car alarm", "Train horn", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling", "Bicycle bell")
+        val danger : List<String> = listOf("Shout","Yell","Vehicle horn, car horn, honking", "Car alarm", "Train horn", "Alarm", "Alarm clock", "Buzzer","Smoke detector, smoke alarm","Fire alarm", "Explosion","Gunshot, gunfire","Machine gun", "Boiling", "Bicycle bell")
 
 
 
@@ -515,7 +515,7 @@ class Operating : AppCompatActivity() {
                     }
                 }
 
-                else if (danger == "Fire alarm" || danger == "Explosion") {
+                else if (danger == "Fire alarm" || danger == "Explosion"|| danger == "Alarm") {
                     runOnUiThread {
                         card.setBackgroundColor(android.graphics.Color.RED)
                         graphicText.setImageResource(com.example.alertio.R.drawable.fire_alarm)
