@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
                     android:padding="20sp"
-                    android:text="HKU CS  COMP3330 Group33  \n\nTeam information  \n\nProject leader: SIU Ka Sing, Benny (u3569037@connect.hku.hk) \n\nTeam member(s): CHOI Man Kin, Ricky, WAN Hing Yin, Elmo"
+                    android:text="HKU CS  COMP3330 Group33  \n\nTeam information  \n\nProject leader: \nSIU Ka Sing, Benny (u3569037@connect.hku.hk) \n\nTeam members: \nCHOI Man Kin, Ricky, WAN Hing Yin, Elmo"
                     android:textColor="#4E4D4D"
                     android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
