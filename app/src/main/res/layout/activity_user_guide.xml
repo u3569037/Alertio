@@ -87,6 +87,26 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:padding="15sp"
+                    android:text="Alarm"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="15sp"
+                android:backgroundTint="#858482"
+                android:elevation="10sp"
+                app:cardCornerRadius="15sp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:padding="15sp"
                     android:text="Alarm clock"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
