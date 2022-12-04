@@ -36,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:background="#D3D1D1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15sp"
                 android:background="#E3E1E1"
-                android:backgroundTint="#E3E1E1"
+                android:backgroundTint="#FFFFFF"
                 android:elevation="5sp"
                 app:cardCornerRadius="20sp">
 
@@ -66,7 +67,7 @@
                     android:padding="20sp"
                     android:text="Notifications will be sent to alert user once danger is detected. \n\nIf you cannot receive any notification, please try to allow notification from this app."
                     android:textColor="#4E4D4D"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/notifButton"
@@ -84,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15sp"
                 android:background="#E3E1E1"
-                android:backgroundTint="#E3E1E1"
+                android:backgroundTint="#FFFFFF"
                 android:elevation="5sp"
                 app:cardCornerRadius="20sp">
 
@@ -97,7 +98,7 @@
                     android:padding="20sp"
                     android:text="AI requires audio input for sound recognition. \n\nIf your AI does not work (i.e. you cannot even see the waveform moving), you may try to grant the microphone access of the app again."
                     android:textColor="#4E4D4D"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/audioInputBtn"
@@ -116,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15sp"
                 android:background="#E3E1E1"
-                android:backgroundTint="#E3E1E1"
+                android:backgroundTint="#FFFFFF"
                 android:elevation="5sp"
                 app:cardCornerRadius="20sp">
 
