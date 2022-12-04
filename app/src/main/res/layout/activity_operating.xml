@@ -37,57 +37,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/backBtn"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="32dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="#FFFFFF"
-        android:contentDescription="allow user to go back to homepage"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/back_arrow_left_icon" />
-
-    <ImageButton
-        android:id="@+id/startbtn"
-        android:layout_width="75sp"
-        android:layout_height="75sp"
-        android:layout_marginBottom="24dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="#FFFFFF"
-        android:contentDescription="allow user to start and stop AI"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/start_button_icon" />
-
-    <ImageButton
-        android:id="@+id/menuBtn"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="32dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="#FFFFFF"
-        android:contentDescription="redirect to past record"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/menu_icon" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/warningBox"
         android:layout_width="350sp"
         android:layout_height="350sp"
-        android:layout_marginBottom="32dp"
         android:backgroundTint="#E8E7E7"
         android:elevation="20sp"
         app:cardCornerRadius="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/startbtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/audioRecordView">
@@ -119,5 +75,55 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/warningBox" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/warningBox">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_marginStart="40dp"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:contentDescription="allow user to go back to homepage"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/back_arrow_left_icon" />
+
+        <ImageButton
+            android:id="@+id/startbtn"
+            android:layout_width="75sp"
+            android:layout_height="75sp"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:contentDescription="allow user to start and stop AI"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/start_button_icon" />
+
+        <ImageButton
+            android:id="@+id/menuBtn"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_marginEnd="40dp"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:contentDescription="redirect to past record"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/menu_icon" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
