@@ -126,11 +126,6 @@ class Operating : AppCompatActivity() {
 
 
 
-    /*    binding.btnShowNotif.setOnClickListener {
-            notifManger.notify(NOTIF_ID,notif)
-        }*/
-
-
         btnBack!!.setOnClickListener {
             //check if recording is stopped
             if (isStopped) {
@@ -174,10 +169,10 @@ class Operating : AppCompatActivity() {
                 audioRecord = audioClassifier.createAudioRecord()
                 audioRecord.startRecording()
 
-                val bufferSize = AudioRecord.getMinBufferSize(16000, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
+//                val bufferSize = AudioRecord.getMinBufferSize(16000, CHANNEL_IN_MONO, ENCODING_PCM_16BIT)
 //                val bufferSize = 62400
 //                var buffer : ByteBuffer = ByteBuffer.allocateDirect(bufferSize)
-                //var buffer = ShortArray(bufferSize)
+//                var buffer = ShortArray(bufferSize)
 
 //                Thread {
 //                    while (!isStopped){
@@ -191,10 +186,13 @@ class Operating : AppCompatActivity() {
                     if (isStopped){
                         return@scheduleAtFixedRate
                     }
+
 //                    var audioData = ShortArray(bufferSize/2)
 //                    for (i in (0 until bufferSize/2)){
 //                        audioData[i] = buffer.getShort(i*2)
 //                    }
+//                    tensorAudio.load(audioData)
+
                     try{
                         tensorAudio.load(audioRecord)
                     }  catch(e:Exception){
@@ -204,9 +202,6 @@ class Operating : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
-
-
-                    //tensorAudio.load(audioData)
 
                     val output = audioClassifier.classify(tensorAudio)
                     val filteredModelOutput = output[0].categories.filter {
@@ -236,35 +231,6 @@ class Operating : AppCompatActivity() {
                         }
                     }
                 }
-/*
-                timerTask = object: TimerTask() {
-                    override fun run() {
-                        var output = audioClassifier.classify(tensorAudio)
-
-                        //filter out classifications with low probability
-                        var finalOutput = ArrayList<org.tensorflow.lite.support.label.Category>()
-                        for (classifications in output) {
-                            for (category in classifications.categories){
-                                if (category.score > 0.3f) {
-                                    finalOutput.add(category)
-                                }
-                            }
-                        }
-                        //create a multiline string with the filtered result
-                        var outputStr = StringBuilder()
-                        for (category in finalOutput) {
-                            outputStr.append(category.label).append((": ")).append(category.score).append("\n")
-                        }
-
-                        Thread {
-                            runOnUiThread {
-                                outputTextView?.setText(outputStr.toString())
-                            }
-                        }
-
-
-                    }*/
-
 
                 //audioRecordView!!.recreate()   // For clearing all drawn pattern
 
@@ -314,25 +280,25 @@ class Operating : AppCompatActivity() {
     //                        }
     //                        amplitude /= 12
                             //println(buffer.toString())
-                            println(audioRecord.audioFormat)
-                            println(audioRecord.format)
-                            println("\n")
-                            println(buffer.get(0))
-                            println(buffer.get(1))
-                            println(buffer.get(2))
-                            println(buffer.get(3))
-                            println(buffer.get(4))
-                            println(buffer.get(5))
-                            println(buffer.get(6))
-                            println("\n")
-                            println(buffer.getFloat(0))
-                            println(buffer.getFloat(1))
-                            println(buffer.getFloat(2))
-                            println(buffer.getFloat(3))
-                            println(buffer.getFloat(4))
-                            println(buffer.getFloat(5))
-                            println(buffer.getFloat(6))
-                            println("\n")
+//                            println(audioRecord.audioFormat)
+//                            println(audioRecord.format)
+//                            println("\n")
+//                            println(buffer.get(0))
+//                            println(buffer.get(1))
+//                            println(buffer.get(2))
+//                            println(buffer.get(3))
+//                            println(buffer.get(4))
+//                            println(buffer.get(5))
+//                            println(buffer.get(6))
+//                            println("\n")
+//                            println(buffer.getFloat(0))
+//                            println(buffer.getFloat(1))
+//                            println(buffer.getFloat(2))
+//                            println(buffer.getFloat(3))
+//                            println(buffer.getFloat(4))
+//                            println(buffer.getFloat(5))
+//                            println(buffer.getFloat(6))
+//                            println("\n")
 
                             amplitude = abs(buffer.get(0) + buffer.get(1)*256)/2
                             //amplitude = (buffer.getFloat(3)*500000).toInt()
@@ -414,23 +380,7 @@ class Operating : AppCompatActivity() {
             manager.createNotificationChannel(channel)
         }
     }
-    /*
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.channel_name)
-            val descriptionText = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }*/
+
 
     //call this when detect danger
     private fun alertUSER(danger:String){
