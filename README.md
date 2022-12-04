@@ -39,5 +39,7 @@ https://innoacademy.engg.hku.hk/alertio/
 External libraries used: 
 https://github.com/Armen101/AudioRecordView
 
+https://github.com/tensorflow/models/tree/master/research/audioset/yamnet
+
 All icons we used come from IconFinder:
 https://www.iconfinder.com/
