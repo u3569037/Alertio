@@ -19,7 +19,17 @@ class Setting : AppCompatActivity() {
         notifBtn = findViewById(R.id.notifButton)
 
         notifBtn!!.setOnClickListener(){
-            startActivity(Intent("android.settings.APP_NOTIFICATION_SETTINGS"))
+            try{
+                var intent = Intent("android.settings.APP_NOTIFICATION_SETTINGS")
+                intent.putExtra("android.provider.extra.APP_PACKAGE", getPackageName());
+                startActivity(intent)
+            } catch(e:Exception){
+                Toast.makeText(
+                    this,
+                    e.toString(),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         audioInputBtn = findViewById(R.id.audioInputBtn)
