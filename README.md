@@ -53,7 +53,7 @@ https://drive.google.com/file/d/1exZu6Be2HI2sVZNr_UkFZHvdBvP64Ml7/view?usp=share
 
 <b>Team information</b>
 
-Project leader: SIU Ka Sing, Benny, BEng(CompSc)
+Project leader: SIU Ka Sing, Benny, BEng(CompSc)  (u3569037@connect.hku.hk)
 
 Team member(s): CHOI Man Kin, Ricky, BEng(CompSc); WAN Hing Yin, Elmo, BEng(CompSc)
 
