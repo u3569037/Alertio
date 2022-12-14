@@ -64,7 +64,7 @@
             android:alpha="0.9"
             android:fontFamily="sans-serif-black"
             android:paddingRight="20sp"
-            android:text="Danger alert \n  with AI \n sound \n recognition \n technology"
+            android:text="Danger alert \n  with AI \n sound \n recognition \n technology "
             android:textAlignment="viewEnd"
             android:textColor="@color/white"
             android:textSize="24sp"
