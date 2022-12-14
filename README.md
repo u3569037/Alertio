@@ -10,11 +10,39 @@ Alertio is a danger alert app for deaf people. It utilizes the state-of-the-art 
 
 <br>
 
+<b> Full list of danger detections supported </b>
+
+<ul>
+  <li>Shout</li>
+  <li>Yell</li>
+  <li>Vehicle horn, car horn, honking</li>
+  <li>Car alarm</li>
+  <li>Train horn</li>
+  <li>Alarm</li>
+  <li>Alarm clock</li>
+  <li>Buzzer</li>
+  <li>Smoke detector, smoke alarm</li>
+  <li>Fire alarm</li>
+  <li>Explosion</li>
+  <li>Gunshot, gunfire</li>
+  <li>Machine gun</li>
+  <li>Boiling</li>
+  <li>Bicycle bell</li>
+</ul>
+
+<br>
+
 <b>Compatibility</b>
 
 Our app performs the best on phones with Android 12 or above. It is highly recommended to use our app with this compatibility suggestion.
 
 Android phones with Android versions lower than 12 can also run the app, but AI's stability might be frustrating. 
+
+<B>APK</b>
+
+Version: 1.0.0
+
+https://drive.google.com/file/d/1exZu6Be2HI2sVZNr_UkFZHvdBvP64Ml7/view?usp=share_link
 
 <hr>
 <br>
@@ -25,7 +53,7 @@ Android phones with Android versions lower than 12 can also run the app, but AI'
 
 <b>Team information</b>
 
-Project leader: SIU Ka Sing, Benny, BEng(CompSc)
+Project leader: SIU Ka Sing, Benny, BEng(CompSc)  (u3569037@connect.hku.hk)
 
 Team member(s): CHOI Man Kin, Ricky, BEng(CompSc); WAN Hing Yin, Elmo, BEng(CompSc)
 
